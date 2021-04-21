@@ -6,7 +6,7 @@ categories:
 date:   2021-04-22 00:11:00 +0900
 author_profile: false
 ---
-### iOS) modal 창 뒤에 View 없애지 않기
+modal 창 뒤에 View 띄우기
 
 `UIModalPresentationStyle` 중 `.fullScreen` 과 `.currentContext` 를 통해서 화면 위 끝까지 덮는 모달창을 구현했었다. 하지만 drag down dismiss 기능을 추가하니까 뒤에 화면이 검은색이 되었다. 즉 전에 있던 View 는 사라진 상태였다. 그래서 알아보았다.
 
