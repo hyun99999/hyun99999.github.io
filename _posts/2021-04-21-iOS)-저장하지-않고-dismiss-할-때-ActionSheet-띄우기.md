@@ -87,9 +87,25 @@ extension AddListViewController: UIAdaptivePresentationControllerDelegate {
 }
 ```
 
+## 문제
+위의 코드를 따라갔는데 delegate 가 제대로 연결되지 않았는지 `presentationControllerDidAttemptToDismiss` 함수가 호출조차되지 않았다. 그래서 살펴보니 이 모달창은 navigationbar 의 push 가 아닌 modal present 였다. 코드 수정을 해주었다.
+
+### 해결
+```swift
+self.presentationController?.delegate = self
+```
+로 델리게이트를 다시 연결해주었다. 나는 푸쉬로 네비게이션바에서 화면전환을 한 것이 아닌 스토리보드에서 modal 창을 띄워준 것이기 때문이다.
+
+### presentationController
+current view controller 를 관리하는 것이 Presentation Controller 이다.
+
+View Controller 가 Presentation Controller 에 의해서 관리되는 경우 이 프로퍼티는 해당 객체를 포함한다. 관리되지 않는 경우 이 속성은 nil 이다.
+
 ### 출처
 출처ㅣhttps://developer.apple.com/documentation/uikit/uiviewcontroller/3229894-ismodalinpresentation/
 
 출처ㅣhttps://developer.apple.com/documentation/uikit/uiadaptivepresentationcontrollerdelegate
 
 출처ㅣhttps://zeddios.tistory.com/831?category=682195
+
+출처ㅣhttps://developer.apple.com/documentation/uikit/uiviewcontroller/1621426-presentationcontroller
