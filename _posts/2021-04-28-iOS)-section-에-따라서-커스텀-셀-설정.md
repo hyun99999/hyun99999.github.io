@@ -12,6 +12,10 @@ section 에 따라서 커스텀 셀 설정
 
 section 별로 custom cell 을 리턴해주면 된다.
 
+- IndexPath 의 section 에 따라서 custom 한 cell 을 리턴해주면된다.
+
+> 마찬가지로 didSelectRowAt 메서드에서도 section 에 따라서 cell 을 present 할 수 있다.
+
 ```swift
 func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
