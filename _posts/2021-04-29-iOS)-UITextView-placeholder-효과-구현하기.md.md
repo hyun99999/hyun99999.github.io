@@ -1,12 +1,12 @@
 ---
-title:  "iOS) TextView placeholder 효과 구현하기"
+title:  "iOS) UITextView placeholder 효과 구현하기"
 categories:
 - iOS
 
 date:   2021-04-29 13:12:00 +0900
 author_profile: false
 ---
-TextView placeholder 효과 구현하기
+UITextView placeholder 효과 구현하기
 
 ### UITextFieldDelegate
 
