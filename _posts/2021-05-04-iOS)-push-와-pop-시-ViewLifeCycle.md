@@ -33,10 +33,9 @@ push 와 pop 시 ViewLifeCycle
 ```swift
 override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    
     realm = try? Realm()
     Lists = realm?.objects(ListModel.self)
-    
-    print("Lists = \(Lists)")
     
     notificationToken = Lists?.observe { change in
         print("change: \(change)")
