@@ -3,7 +3,7 @@ title:  "iOS) UIPageViewController 사용해보기"
 categories:
 - iOS
 
-date:   2021-05-27 23:44:00 +0900
+date:   2021-06-02 00:16:00 +0900
 author_profile: false
 ---
 ### UIPageViewController
