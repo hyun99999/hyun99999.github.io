@@ -1,5 +1,5 @@
 ---
-title:  "iOS) Core Data"
+title:  "iOS) Core Data CRUD"
 categories:
 - iOS
 
