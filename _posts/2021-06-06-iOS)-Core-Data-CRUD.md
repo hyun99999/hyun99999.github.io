@@ -96,6 +96,37 @@ insertStory(), deleteAll(), delete() 에서만 선언해준다.
 // let storyOne = Story(title: "story1", detail: "detail1", date: "date1")
 // PersistenceManager.shared.insertStory(story: storyOne)
 ```
+- update
+
+```swift
+// update
+@discardableResult
+func updateStory<T :NSManagedObject>(reqeust: NSFetchRequest<T>, index: Int, story: Story) -> Bool {
+    do{
+        let fetchResult = try self.context.fetch(reqeust)
+        let objectUpdate = fetchResult[index]
+        objectUpdate.setValue(story.title, forKey: "title")
+        objectUpdate.setValue(story.detail, forKey: "detail")
+        objectUpdate.setValue(story.date, forKey: "date")
+        
+        do {
+            try self.context.save()
+            return true
+        } catch {
+            print(error.localizedDescription)
+            return false
+        }
+    } catch {
+        print(error.localizedDescription)
+        return false
+    }
+    
+// 사용
+// update
+// let request: NSFetchRequest<StoryModel> = StoryModel.fetchRequest()
+// PersistenceManager.shared.updateStory(reqeust: request, index: index, story: story)
+}
+```
 
 - delete
 
