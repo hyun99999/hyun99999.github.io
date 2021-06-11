@@ -28,7 +28,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 - selected 상태는 cell 이 선택된 상태. 다른 셀을 선택하기전까지는 바뀌지 않음.
 - highlighted 상태는 cell 을 선택할 때 터치할 때 상태.
 
-```siwft
+```swift
 import UIKit
 
 class StoryTVC: UITableViewCell {
