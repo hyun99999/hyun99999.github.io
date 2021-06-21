@@ -27,7 +27,23 @@ p8(인증키) ,p12(인증서) 파일 모두 만드는 방법을 정리했다. AP
 
 # Apple Push Notification service (APNs) 설정하기
 
-APNs 란? iOS 에서 지원하는 푸쉬알람이다. 
+- 단순히 순서를 따라서 가면 될 줄 알았는데 알아야할 것도 있었고 경우에 따라서 요구하는 파일도 달랐다. 그러니 천천히 읽어주시기 바랍니다.
+
+- 먼저 어떤 서버 환경에서 푸쉬알림을 보내줄 건지 그렇다면 server provider 가 요구하는 파일은 무엇인지 알고 진행하기를 바랍니다.
+---
+p8(인증키) ,p12(인증서) 파일 모두 만드는 방법을 정리했다. APNs 키는(p8) 계정당 2개까지만 만들 수 있어서 나는 못만들어봤고 출처를 참고했다. 
+
+(참고로 p8(인증키)은 인증갱신을 하지 않아도 되기 때문에 p12(인증서)보다 선호한다. 파이어베이스에서는 둘 다 지원한다.)
+
+이해를 완벽하게 하지 않더라도 아래의 글을 먼저 읽어보는 걸 추천한다.
+
+[[iOS] provider server와 APNs의 안전한 연결을 위한 두가지 방법](https://sujinnaljin.medium.com/provider-server와-apns의-안전한-연결을-위한-두가지-방법-bb82d60ea7c8)
+
+
+❗️이제 푸쉬알림을 사용하기 위한 과정을 알아보자
+# Apple Push Notification service (APNs) 설정하기
+
+APNs 란? iOS 에서 지원하는 푸쉬알림이다. 
 
 ## 1. CSR 발급
 
@@ -185,3 +201,180 @@ firebase 같은경우는 두가지 지원한다.
 - p12 인증서를 쓰는 예시. 인증서는 1년마다 갱신해야 한다.
 
 [https://faith-developer.tistory.com/156](https://faith-developer.tistory.com/156)
+
+자 실제로 한번 푸시알림을 보내보겠습니다.
+  
+## 5. iOS 앱에 Firebase 추가하기
+
+iOS 앱을 내 Firebase 프로젝트와 안전하게 연결하기 위해선, 인증서 파일을 다운받아야 하고, 그걸 내 iOS 앱 안에 세팅해야 합니다. 
+
+- 프로젝트를 생성해주고
+- ios 앱을 추가해줍니다.
+
+<p align="center"><img width="300" alt="스크린샷 2021-06-19 오전 1 17 00" src="https://user-images.githubusercontent.com/69136340/122633638-90927300-d114-11eb-99ad-9bc116fa5c93.png"></p>
+
+- 앱을 등록해줍니다. (iOS 번들 ID 는 프로젝트파일에서 확인가능하다.)
+
+<p align="center"><img width="500" alt="스크린샷 2021-06-19 오전 1 18 36" src="https://user-images.githubusercontent.com/69136340/122633648-9ee08f00-d114-11eb-9a7d-5d2ff5dafd2a.png"></p>
+
+- GoogleService-info.plist 다운로드 해서 프로젝트에 추가해준다.
+<p align="center"><img width="550" alt="스크린샷 2021-06-19 오전 9 41 10" src="https://user-images.githubusercontent.com/69136340/122633702-d94a2c00-d114-11eb-9636-bc0c2bea6948.png"></p>
+
+<p align="center"><img width="500" alt="스크린샷 2021-06-19 오전 9 41 37" src="https://user-images.githubusercontent.com/69136340/122633707-e0713a00-d114-11eb-9227-54004e313fe6.png"></p>
+
+- Friebase SDK 를 추가한다.
+
+<p align="center"><img width="550" alt="스크린샷 2021-06-19 오전 9 45 15" src="https://user-images.githubusercontent.com/69136340/122633736-00086280-d115-11eb-8886-fedcad3d4cf6.png"></p>
+
+- 추가적으로 추후에 메시지 수신을 위해서 `Firebase/Messaging` 필요하니 지금 같이 추가해서 install 해주자.
+
+<p align="center"><img width="500" alt="스크린샷 2021-06-19 오후 2 30 23" src="https://user-images.githubusercontent.com/69136340/122633766-2b8b4d00-d115-11eb-87eb-4c37ac65d34b.png"></p>
+
+- AppDelegate.swift 파일에 `import Firebase` 와  `FirebaseApp.configure()` 를 추가해준다.
+
+<p align="center"><img width="550" alt="스크린샷 2021-06-19 오전 9 46 57" src="https://user-images.githubusercontent.com/69136340/122633754-1f06f480-d115-11eb-85cf-f84af3ffefce.png"></p>
+
+## 6. 알림 권한 요청
+
+- iOS 에서는 사용자의 동의 없는 notification 을 수신하지 못하도록 했기때문에 권한을 요청해야한다.
+
+ 보통 앱이 처음 실행될 때 물어보거나 푸시알림을 설정하는 단계에서 물어보면 된다. 아래 코드는 앱을 런치할 때 권한을 요청하기 위해서 `application(_:didFinishLaunchingWithOptions:)` 메서드에 추가해 줬다.
+
+- AppDelegate.swift
+
+`UNAuthorizationOptions` 으로 푸시 권한을 설정해준다. (alert : 알람 권한, badge : badge 업데이트 권한, sound : 소리 권한)
+    
+```swift
+// Tells the delegate that the launch process is almost done and the app is almost ready to run.
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Override point for customization after application launch.
+
+    // 기존에 적었던 파이어베이스 권한 설정
+        FirebaseApp.configure()
+        
+    // 푸시 권한 설정
+        UNUserNotificationCenter.current().delegate = self
+
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter
+          .current()
+          .requestAuthorization(
+            options: authOptions,completionHandler: { (_, _) in }
+          )
+        application.registerForRemoteNotifications()
+        
+        return true
+    }
+```
+
+- 파이어베이스의 노티가 수신될 수 있도록 한다.
+
+```swift
+extension AppDelegate : UNUserNotificationCenterDelegate {
+    
+    // 1. Asks the delegate how to handle a notification that arrived while the app was running in the foreground.
+    func userNotificationCenter(_ center: UNUserNotificationCenter,willPresent notification: UNNotification,withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound])
+    }
+
+    // 2. Asks the delegate to process the user's response to a delivered notification.
+    func userNotificationCenter(_ center: UNUserNotificationCenter,didReceive response: UNNotificationResponse,withCompletionHandler completionHandler: @escaping () -> Void) {
+        completionHandler()
+    }
+}
+```
+    
+**주석)**
+    
+1 : `userNotificationCenter(_:willPresent:withCompletionHandler:)` 메서드는 foreground 에서 러닝중에 앱에 도착하는 notification 을 다룬다.
+    
+`completionHandler()` 은 notification 에 대해서 presentation option 을 가지고 실행될 블록이다. `UNNotificationPresentationOptions(.sound, .badge 등의 옵션) -> Void` 을 통해 이 블록에는 리턴값이 없고 `UNNotificationPresentationOptions` 파라미터를 사용함을 알 수 있다.
+    
+2 : `userNotificationCenter(_:didReceive:withCompletionHandler:)` 메서드는 도착한 notification 에 대한 user 의 반응을 다룬다.
+
+completionHandler 의 반환값이 () -> Void `completionHandler()` 이기 때문에 completionHandler 마지막에 항상 `completionHandler()` 를 호출해주어야 한다.
+    
+이 메서드는 아래와 같이 notification 에서 action 에 대한 설정을 할 수 있다.
+    
+<img width="300" alt="스크린샷 2021-06-19 오후 10 03 35" src="https://user-images.githubusercontent.com/69136340/122643334-34e2dc80-d14a-11eb-957d-3a968e1d1026.png">
+
+더 자세한 내용은 아래 주소를 참조.
+    
+[Apple Developer - Declaring Your Actionable Notification Types](https://developer.apple.com/documentation/usernotifications/declaring_your_actionable_notification_types)
+
+---
+    
+**warning**
+
+iOS 14.0 에서 alert 옵션이 추천되지 않았다. 그래서 UNNotificationPresentationOptions 에 어떤 속성들이 존재하는지 살펴보았다.
+
+<p align ="center"><img width="800" alt="_2021-06-19__2 41 56" src="https://user-images.githubusercontent.com/69136340/122633809-69887100-d115-11eb-9409-07e47354a62b.png"></p>
+
+<p align ="center"><img width="400" alt="_2021-06-19__2 41 28" src="https://user-images.githubusercontent.com/69136340/122633808-668d8080-d115-11eb-9a13-98a558c81476.png"></p>
+
+badge : 앱 아이콘 우측상단에 표시되는 알림 숫자가 badge 에 해당한다. foreground 일 경우는 알림을 바로 확인하니까 특별한 경욱 아니면 불필요하다.
+
+sound : notification 과 관련되 소리를 실행한다.
+
+alert : notification 으로부터 content 를 제공받아 alert 알람을 보여준다.
+    
+iOS 14 부터 추가된 옵션들이다. alert 는 더이상 추천되지 않는다.
+    
+banner : 배너처러 notification 을 보여준다.
+
+list : Notification Center 에서 보여준다. (말 그대로 알림센터다. 잠금 화면에서 화면의 중간을 스와이프 업하거나 다른 화면에서 스크린 위의 중앙을 스와이프다운하면 나오는 '알림센터'다.)
+
+- 앱을 실행하게 되면 notifications 에 대한 권한을 요청한다. 그리고 앱설저에서 확인해보면 Allow Notificiations 가 설정되어있는 것을 확인 할 수 있다.
+
+<p align ="center"><img width="250" src="https://user-images.githubusercontent.com/69136340/122634920-edddf280-d11b-11eb-9c2e-02ebe3e020e8.png"><img width="250" src="https://user-images.githubusercontent.com/69136340/122634866-bbcc9080-d11b-11eb-9584-05e8b703e987.png">
+</p>
+
+## 7. Firebase iOS 앱 내에 인증서 등록
+  
+- 파이어베이스에 등록했던 프로젝트의 앱을 선택한다.
+  
+<p align ="center"><img width="300" alt="스크린샷 2021-06-19 오전 9 59 57" src="https://user-images.githubusercontent.com/69136340/122633883-de5bab00-d115-11eb-8a5a-552d9c6f80a4.png"></p>
+
+- 클라우드 메시징에서 인증서를 등록한다.
+
+<p align ="center"><img width="500" alt="스크린샷 2021-06-19 오전 10 00 53" src="https://user-images.githubusercontent.com/69136340/122633889-e582b900-d115-11eb-8b3c-b3d644ccb5c8.png"></p>
+
+- 인증키 즉 p8 파일을 사용하면 좋다고 하지만 나는 p12 파일만 있기때문에 APN 인증서에 인증서를 업로드 할 것이다.
+
+**A-1. Certificates 생성** 단계에서 개발 APN 과 프로덕션 APN 을 만들어주면 된다. 그리고 키체인에서 내보내기한 p12 파일을 업로드해준다.
+
+<p align ="center"><img width="500" alt="스크린샷 2021-06-19 오전 10 06 04" src="https://user-images.githubusercontent.com/69136340/122633901-f6cbc580-d115-11eb-88e3-46837a7dcf86.png"></p>
+
+## 8. Firebase 콘솔에서 테스트 메세지 보내기
+
+- Cloud Messaging 들어간다.
+
+<p align ="center"><img width="400" alt="스크린샷 2021-06-19 오전 10 11 24" src="https://user-images.githubusercontent.com/69136340/122633917-1367fd80-d116-11eb-8f8a-5f6a87890f09.png"></p>
+
+- 메시지 보내기
+
+<p align ="center"><img width="400" alt="스크린샷 2021-06-19 오전 10 13 27" src="https://user-images.githubusercontent.com/69136340/122633920-17941b00-d116-11eb-99be-6b9ac2ead210.png"></p>
+
+- 알림 제목과 텍스트를 설정해준다.
+
+<p align ="center"><img width="550" alt="스크린샷 2021-06-19 오후 3 08 54" src="https://user-images.githubusercontent.com/69136340/122633925-1c58cf00-d116-11eb-9acb-4407fa3035ec.png"></p>
+
+- 파이어베이스에 등록한 App 을 선택한다.
+
+<p align ="center"><img width="550" alt="스크린샷 2021-06-19 오후 3 10 50" src="https://user-images.githubusercontent.com/69136340/122633928-1f53bf80-d116-11eb-8aad-cc15041c0869.png"></p>
+
+- 예약할 옵션을 선택하고 다음을 눌러 진행을 해도 되고 검토를 해도 된다.
+
+<p align ="center"><img width="550" alt="스크린샷 2021-06-19 오후 3 12 51" src="https://user-images.githubusercontent.com/69136340/122633935-24187380-d116-11eb-871f-f5af5c19bacf.png">
+
+- 검토하게되면 다음과 같은 팝업창이 뜬다. 게시해보자.
+
+<p align ="center"><img width="450" alt="_2021-06-19__3 14 09" src="https://user-images.githubusercontent.com/69136340/122633936-27abfa80-d116-11eb-8cee-361ab5e4a074.png"></p>
+
+아래의 세가지 경우 모두 정상적으로 도착한다면 테스트 메시지 보내기 성공이다.
+
+- 앱이 켜져있을 때 (Foreground)
+- 앱이 켜져있지만 background 에 있을 때 (Background)
+- 앱이 꺼져있을 때 (Quit)
+
+<p align ="center"><img width="250" src ="https://user-images.githubusercontent.com/69136340/122633981-6d68c300-d116-11eb-87a0-1d1202fa5b48.png"></p>
