@@ -17,7 +17,7 @@ navigationController?.navigationBar.isHidden = true
 
 이때 interactivePopGestureRecognizer 를 사용하면 pop 할 수 있다,
 
-```siwft
+```swift
 override func viewDidLoad() {
     super.viewDidLoad()
 
