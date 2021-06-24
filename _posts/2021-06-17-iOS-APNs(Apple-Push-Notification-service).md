@@ -302,6 +302,37 @@ completionHandler 의 반환값이 () -> Void `completionHandler()` 이기 때�
     
 [Apple Developer - Declaring Your Actionable Notification Types](https://developer.apple.com/documentation/usernotifications/declaring_your_actionable_notification_types)
 
+- provider server 가 device token(현재 기기에 있는 앱의 주소) 을 알아야 알림을 전달할 수 있다. AppDelegate.swift 파일에 다음과 같이 코드를 추가하자.
+
+(이 글을 따라간다면 파이어베이스에서 앱전체에 푸시 알림을 보내기 때문에 서버에 device token 을 전달하는 메서드를 구현하지 않아도 작동된다.)
+
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Override point for customization after application launch.
+
+                // ...
+
+                // request the device token
+                UIApplication.shared.registerForRemoteNotifications()
+        return true
+}
+
+// Tells the delegate that the app successfully registered with APNs.
+func application(_ application: UIApplication,
+            didRegisterForRemoteNotificationsWithDeviceToken 
+                deviceToken: Data) {
+
+     // sendDeviceTokenToServer() 커스텀 메서드를 만들어주어서 서버로 deviceToken 을 보내면 된다.
+   // self.sendDeviceTokenToServer(data: deviceToken)
+}
+
+// Sent to the delegate when APNs cannot successfully complete the registration process.
+func application(_ application: UIApplication,
+            didFailToRegisterForRemoteNotificationsWithError 
+                error: Error) {
+   // Try again later.
+}
+```
 ---
     
 **warning**
