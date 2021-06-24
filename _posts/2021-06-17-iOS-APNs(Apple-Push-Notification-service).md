@@ -374,7 +374,9 @@ list : Notification Center 에서 보여준다. (말 그대로 알림센터다. 
 아래의 세가지 경우 모두 정상적으로 도착한다면 테스트 메시지 보내기 성공이다.
 
 - 앱이 켜져있을 때 (Foreground)
+
 - 앱이 켜져있지만 background 에 있을 때 (Background)
+
 - 앱이 꺼져있을 때 (Quit)
 
 <p align ="center"><img width="250" src ="https://user-images.githubusercontent.com/69136340/122633981-6d68c300-d116-11eb-87a0-1d1202fa5b48.png"></p>
