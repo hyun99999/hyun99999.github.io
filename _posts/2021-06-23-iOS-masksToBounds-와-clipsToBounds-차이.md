@@ -32,4 +32,7 @@ label.clipsToBounds
 
 ### 출처
 출처ㅣ[iOS ) masksToBounds/clipsToBounds의 차이점](https://zeddios.tistory.com/37)
+
+출처ㅣ[masksToBounds](https://developer.apple.com/documentation/quartzcore/calayer/1410896-maskstobounds)
+
 출처ㅣ[clipsToBounds](https://developer.apple.com/documentation/uikit/uiview/1622415-clipstobounds)
