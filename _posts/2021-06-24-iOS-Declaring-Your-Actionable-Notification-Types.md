@@ -1,5 +1,5 @@
 ---
-title:  "iOS) Declaring Your Actionable Notification Types"
+title:  "iOS) AppleDeveloper - Declaring Your Actionable Notification Types"
 categories:
 - iOS
 
