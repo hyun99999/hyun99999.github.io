@@ -96,9 +96,7 @@ category string 을 `UNMutableNotificationContent` 의 [category identifier](htt
 
 ---
 
-app's notification types 를 선언하는 것의 자세한 내용은 [Declaring Your Actionable Notification Types.](https://developer.apple.com/documentation/usernotifications/declaring_your_actionable_notification_types) 를 참조하라.
-
-[Apple Developer Documentation](https://developer.apple.com/documentation/usernotifications/declaring_your_actionable_notification_types)
+app's notification types 를 선언하는 것의 자세한 내용은 [Declaring Your Actionable Notification Types.](https://developer.apple.com/documentation/usernotifications/declaring_your_actionable_notification_types) 를 참조하자.
 
 ### Hide the Default Notification Interface
 
