@@ -24,6 +24,7 @@ Splash 화면 만들기
 - AppDelegate.swift 에서 로그인 유무를 판단할 수 있는 변수를 생성해두고 앱이 실행되면 application(_:didFinishLaunchingWithOptions:) 메서드 안에서 분기처리해서 변수를 바꾸어주었다.
 
 - SplashVC
+
 ```swift
 // MARK: - Properties
 // AppDelegate 에서 생성한 로그인 유무 변수
@@ -56,7 +57,6 @@ private func presentToHome(){
 private func presentToLogin() {
     //뷰전환 코드
 }
-
 ```
 
 ### 출처
