@@ -6,6 +6,8 @@ categories:
 date:   2021-07-12  11:19:00 +0900
 author_profile: false
 ---
+오픈 라이브러리 PanModal 사용하기 
+
 - 모달창을 띄우고 싶은 뷰컨
 
 ```swift
@@ -56,7 +58,7 @@ extension SortPanModalVC: PanModalPresentable {
 ```
 
 ### 완성
-<img src = "https://user-images.githubusercontent.com/69136340/125229580-0eabf900-e312-11eb-85b1-ffe4726d7168.png" width = "250"
+<img src = "https://user-images.githubusercontent.com/69136340/125229580-0eabf900-e312-11eb-85b1-ffe4726d7168.png" width = "250">
 
 ### 모달창 높이 속성값
 - contentHeight
