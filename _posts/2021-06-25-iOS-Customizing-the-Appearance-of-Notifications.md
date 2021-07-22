@@ -100,6 +100,41 @@ app's notification types 를 선언하는 것의 자세한 내용은 [Declaring 
 
 ### Hide the Default Notification Interface
 
+시스템은 custom interface 를 제공하는 정보를 포함한 모든 notification 과 함께 일부 default 정보를 표시한다. 시스템은 항상 app name 과 icon 을 포함한 header 를 표시한다. 또한 notification 의 title, subtitle 그리고 body text 와 함께 interface 를 표시하지만 원하는 경우 이 부분들을 숨길 수 있다.
+
+예를 들어, custom interface 가 같은 정보를 표시하는 경우 default notification interface 를 숨길 수 있다.  Figure 3 은 default content 가 있거나 없는 notification interface 이다.
+
+<img src ="https://user-images.githubusercontent.com/69136340/126604127-8c39abd5-b2e5-48b1-a6ad-476c7294cacd.png" width = "500">
+
+default contetn 를 제거하기 위해서 extension 의 info.plist 파일에 UNNotificationExtensionDefaultContentHidden 키를 추가하고 값을 true 로 설정한다. 자세한 내용은 [UNNotificationContentExtension](https://developer.apple.com/documentation/usernotificationsui/unnotificationcontentextension) 를 참조해라.
+
+### Incorporating Media Into Your Interface
+
+custom notifications interface 에서 오디오 또는 비디오 재생을 지원하려면 다음을 구현해라
+
+- In the view controller’s mediaPlayPauseButtonType property, return the type of button you want.
+
+- In the view controller’s mediaPlayPauseButtonFrame property, return the button’s frame.
+
+- In the mediaPlay() method, start playing your media file.
+
+- in the mediaPause() button, stop playing your media file.
+
+시스템은 모든 사용자 상호작용을 처리하는 미디어 버튼을 그린다. 버튼을 누르면 재생을 시작과 중지할 수 있는 [mediaPlay()](https://developer.apple.com/documentation/usernotificationsui/unnotificationcontentextension/1648524-mediaplay) 와 [mediaPause()](https://developer.apple.com/documentation/usernotificationsui/unnotificationcontentextension/1648528-mediapause) 메서드를 호출한다.
+
+미디어 파일의 재생을 프로그래밍 방식으로 시작 및 정지하려면 현재 [NSExtensionContext](https://developer.apple.com/documentation/foundation/nsextensioncontext) 개체의 mediaPlayStarted() 와 mediaPlayingPaused() 메서드를 호출해야한다. 뷰컨트롤러의 [extensionContext](https://developer.apple.com/documentation/uikit/uiviewcontroller/1621411-extensioncontext) 속성을 사용하여 extension context 에 액세스한다.
+
+### Support Interactive Controls
+
+iOS 12 이상에서는 cutom notification 에서 user interactions 를 활성화할 수 있다. 이를 통해서 버튼과 스위치 같은 대화형 컨트롤러를 추가할 수 있다.
+
+user interactions 를 활성화시키려면 :
+
+1. Open your Notification Content Extension’s info.plist file.
+
+2. Add the UNNotificationExtensionUserInteractionEnabled key to your extension attributes. Give it a Boolean value, set to YES.
+
+<img src ="https://user-images.githubusercontent.com/69136340/126606678-ef587c4d-ccec-465b-8378-c3d950416670.png" width ="600">
 
 ### 출처
 출처ㅣ[Customizing the Appearance of Notifications](https://developer.apple.com/documentation/usernotificationsui/customizing_the_appearance_of_notifications)
