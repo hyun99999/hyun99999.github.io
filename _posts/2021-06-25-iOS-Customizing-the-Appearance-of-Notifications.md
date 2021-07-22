@@ -1,4 +1,4 @@
----
+z---
 title:  "iOS) AppleDeveloper - Customizing the Appearance of Notifications"
 categories:
 - iOS
@@ -55,7 +55,7 @@ Note) 하나 이상의 notification content app extension 을 사용하려면 In
 
 Xcode 가 제공하는 template 은 storyboard 와 view controller 를 포함한다. 
 
-label 뿐만 아니라 image views 와 vies 를 사용할 수 있다. 또한 iOS12 이상부터는 interactive controls 를 사용할 수 있다. (buttons or switches)
+label 뿐만 아니라 image views 와 views 를 사용할 수 있다. 또한 iOS12 이상부터는 interactive controls 를 사용할 수 있다. (buttons or switches)
 
 important) 추가적인 view controllers 를 app extension 에 추가하거나 stroyboard 파일을 추가하지 마시오. app extension 은 무조건 하나의 view controller 포함해야한다.
 
@@ -106,7 +106,7 @@ app's notification types 를 선언하는 것의 자세한 내용은 [Declaring 
 
 <img src ="https://user-images.githubusercontent.com/69136340/126604127-8c39abd5-b2e5-48b1-a6ad-476c7294cacd.png" width = "500">
 
-default contetn 를 제거하기 위해서 extension 의 info.plist 파일에 UNNotificationExtensionDefaultContentHidden 키를 추가하고 값을 true 로 설정한다. 자세한 내용은 [UNNotificationContentExtension](https://developer.apple.com/documentation/usernotificationsui/unnotificationcontentextension) 를 참조해라.
+default content 를 제거하기 위해서 extension 의 info.plist 파일에 UNNotificationExtensionDefaultContentHidden 키를 추가하고 값을 true 로 설정한다. 자세한 내용은 [UNNotificationContentExtension](https://developer.apple.com/documentation/usernotificationsui/unnotificationcontentextension) 를 참조해라.
 
 ### Incorporating Media Into Your Interface
 

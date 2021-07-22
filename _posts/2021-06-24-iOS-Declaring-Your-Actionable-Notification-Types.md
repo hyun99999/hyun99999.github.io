@@ -83,13 +83,13 @@ notificationCenter.setNotificationCategories([meetingInviteCategory])
 
 ---
 
-2.`UNNotificationCategoryOptions`
-
-`convenience init(identifier: String, actions: [UNNotificationAction], intentIdentifiers: [String], hiddenPreviewsBodyPlaceholder: String, options: UNNotificationCategoryOptions = [])` 
-
-:`hiddenPreviewsBodyPlaceholder` argument 는 사용자가 notification previews 를 비활성화했을 때(ex)화면 잠금 시 카카오톡은 내용 대신 알림의 갯수를 표시합니다.) 표시할 placeholder 문자열 입니다. 동일한 스레드 식별자를 가진 알림 수를 나타내기 위해서 문자열에 %u 문자를 포함한다. ex) "%u Messages" -> 2 Messages
+2.`UNNotificationCategory`
 
 :`options` argument 에 이 type 의 notification 을 처리하기 위한 `UNNotificationCategoryOptions` 의 값을 넣어준다.
+
+`convenience init(identifier: String, actions: [UNNotificationAction], intentIdentifiers: [String], hiddenPreviewsBodyPlaceholder: String, options: UNNotificationCategoryOptions = [])`
+
+:`hiddenPreviewsBodyPlaceholder` argument 는 사용자가 notification previews 를 비활성화했을 때(ex)화면 잠금 시 카카오톡은 내용 대신 알림의 갯수를 표시합니다.) 표시할 placeholder 문자열 입니다. 동일한 스레드 식별자를 가진 알림 수를 나타내기 위해서 문자열에 %u 문자를 포함한다. ex) "%u Messages" -> 2 Messages
 
 ### `UNNotificationCategoryOptions`  Initializers
 - `init(rawValue: UInt)` : Initializes a notification category options object using the specified raw value.
