@@ -1,5 +1,5 @@
 ---
-title:  "iOS) UICollectionView-의-vertical,horizontal-유무-programmatically-구현"
+title:  "iOS) UICollectionView 의 vertical,horizontal 유무 programmatically 구현"
 categories:
 - iOS
 

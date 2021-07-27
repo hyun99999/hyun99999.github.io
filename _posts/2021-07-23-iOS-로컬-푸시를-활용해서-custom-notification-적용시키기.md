@@ -61,7 +61,7 @@ class ViewController: UIViewController {
 
 1: 권한요청
 
-<img src ="https://user-images.githubusercontent.com/69136340/126676577-06dc77bc-b0ec-4c4f-9c7c-5e4236ea5a7b.png" width = "250">
+<img src ="https://user-images.githubusercontent.com/69136340/126901388-9f60012a-3086-4b46-9e45-5f9de436d3bf.png" width ="250">
 
 2: categoryIdentifier 를 설정해서 custom notification 을 지정해줄 것이다.
 
@@ -71,7 +71,7 @@ extension 으로 만든 스토리보드와 뷰컨트롤러를 이용해서 cutom
 
 - info.plist
 
-  <img src ="https://user-images.githubusercontent.com/69136340/126676700-b6fcc55e-e53a-467d-8de1-b3ee5a62eecf.png" width ="600">
+<img src ="https://user-images.githubusercontent.com/69136340/126901390-8d28c38e-fa1f-4906-99d2-d52c4a1dc2c0.png" width ="600">
 
 UNNotificationExtensionContentHidden
 
@@ -88,7 +88,8 @@ UNNotificationExtensionInitialContentSizeRatio
 
 - MainInterface.storyboard
 
-<img src ="https://user-images.githubusercontent.com/69136340/126676702-4c94997c-6f30-4051-9897-609fb19c9cbc.png" width ="250">
+<img src ="https://user-images.githubusercontent.com/69136340/126901393-dfa5f05e-8b2e-4ad4-930b-075fd4b962f4.png" width ="400">
+
 
 - NotificationViewController.swift
 
@@ -112,4 +113,4 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
 }
 ```
 
-<img src ="https://user-images.githubusercontent.com/69136340/126676843-10f99464-f32a-4922-8333-b3e67ff41efd.png" width ="250">
+<img src ="https://user-images.githubusercontent.com/69136340/126901394-f1a6e290-3907-404a-ba54-37d37c324c82.png" width ="250">
