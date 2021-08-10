@@ -1,5 +1,5 @@
 ---
-title:  "iOS) VerticalCardSwiper 오픈라이브러리를 알아보자
+title:  "iOS) VerticalCardSwiper 오픈라이브러리를 알아보자"
 categories:
 - iOS
 

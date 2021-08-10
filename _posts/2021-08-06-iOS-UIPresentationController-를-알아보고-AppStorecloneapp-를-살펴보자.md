@@ -1,5 +1,5 @@
 ---
-title:  "iOS) UIPresentationController 를 알아보고 App Store clone app 를 살펴보자
+title:  "iOS) UIPresentationController 를 알아보고 App Store clone app 를 살펴보자"
 categories:
 - iOS
 
