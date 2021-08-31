@@ -16,4 +16,4 @@ author_profile: false
 
 `KakaoQRcode-iOS-CloneCoding/Resource/Info.plist` 라고 설정해주었다.
 
-<img src ="https://user-images.githubusercontent.com/69136340/130947672-827df969-9f92-4428-bd5a-c654f4944051.pn" width ="700">
+<img src ="https://user-images.githubusercontent.com/69136340/130947672-827df969-9f92-4428-bd5a-c654f4944051.png" width ="700">
