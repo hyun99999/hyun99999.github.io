@@ -3,7 +3,7 @@ title:  "iOS) Face ID & Touch ID - Biometrics Authentication(생체인식 인증
 categories:
 - iOS
 
-date:   2021-09-06  17:30:00 +0900
+date:   2021-09-12  17:30:00 +0900
 author_profile: false
 ---
 😨 Face ID 를 활용한 오싹한 생체인식 인증 실험
