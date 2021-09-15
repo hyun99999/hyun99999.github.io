@@ -155,13 +155,18 @@ func dataTask(with request: URLRequest,
 completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
 ```
 
-- data : 서버로부터 전달받은 data
+- url : 검색할 URL.
+- request : URL, 캐시 정책, 요청 유형, body data 또는 body stream 등을 제공하는 URL 요청 객체입니다.
+
+**completionHandler**
+
+- data : 서버로부터 전달받은 data.
 - response : **HTTP 헤더 및 status code 같은 response metadata 를 제공하는 객체이다.** HTTP 또는 HTTPS 요청을 수행한 경우 실제로 [HTTPURLResponse](https://developer.apple.com/documentation/foundation/httpurlresponse) 객체가 반환된다.
 - error : **요청이 실패한 이유를 의미하는 error 객체. 요청이 성공적이면 nil.**
 
-요청이 **성공**적으로 완료되면 data 파라미터에 리소스 데이터가 포함되고 error 파라미터는 nil 이다.
+**요청 성공** : data 파라미터에 리소스 데이터. error 파라미터는 nil 이다.
 
-요청이 **실패**하면 data 파라미터는 nil. error 파라미터는 실패에 대한 정보를 포함한다.
+**요청 실패** : data 파라미터는 nil. error 파라미터는 실패에 대한 정보를 포함한다.
 
 서버의 response 를 수신하면 요청의 성공여부와 관계없이 response 에 해당 정보가 포함된다.(response 의 status code 로 요청의 성공을 판별할 수 있다.)
 
@@ -172,33 +177,111 @@ POST, PUT 요청같은 request body 를 가지는 모든 요청에 해당. 업�
 ```swift
 // taks 는 세션의 delegate 의 메서드를 호출해서 upload's progress 와 response metatdata, response data 등을 제공.
 func uploadTask(with request: URLRequest, 
-           from bodyData: Data) -> URLSessionUploadTask
+       fromFile fileURL: URL) -> URLSessionUploadTask
 
 func uploadTask(with request: URLRequest, 
-       fromFile fileURL: URL) -> URLSessionUploadTask
+           from bodyData: Data) -> URLSessionUploadTask
 
 ```
 
 요청에 대한 응답을 처리할 completion handler 가 필요한 경우 다음으로 구현.
 
 ```swift
-func uploadTask(with request: URLRequest, 
-           from bodyData: Data?, 
-completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionUploadTask
-
+// delegate 의 메서드 호출이 아닌 completion handler 의 내부에 response 를 제공.
+// (인증 문제에 대한 delegate 메서드는 여전히 호출된다.)
 func uploadTask(with request: URLRequest, 
        fromFile fileURL: URL, 
 completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionUploadTask
+
+func uploadTask(with request: URLRequest, 
+           from bodyData: Data?, 
+completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionUploadTask
 ```
 
-- data : 서버로부터 전달받은 data
+- requset : URL, 캐시 정책, 요청 유형 등을 제공하는 URL 요청 객체입니다. 이 요청 개체의 본문 스트림 및 본문 데이터는 무시됩니다
+- fileURL : 업로드 할 파일의 URL.
+- bodyData : 요청을 위한 body data.
+
+**completionHandler**
+
+- data : 서버로부터 전달받은 data.
 - response : **HTTP 헤더 및 status code 같은 response metadata 를 제공하는 객체이다.** HTTP 또는 HTTPS 요청을 수행한 경우 실제로 [HTTPURLResponse](https://developer.apple.com/documentation/foundation/httpurlresponse) 객체가 반환된다.
 - error : **요청이 실패한 이유를 의미하는 error 객체. 요청이 성공적이면 nil.**
+
+**요청 성공** : data 파라미터에 리소스 데이터. error 파라미터는 nil 이다.
+
+**요청 실패** : data 파라미터는 nil. error 파라미터는 실패에 대한 정보를 포함한다.
+
+서버의 response 를 수신하면 요청의 성공여부와 관계없이 response 에 해당 정보가 포함된다.(response 의 status code 로 요청의 성공을 판별할 수 있다.)
+
+### URLSessionDownTask 생성
+
+```swift
+// taks 는 세션의 delegate 의 메서드를 호출해서 progress notifications, 결과 임시파일의 위치 등을 제공.
+func downloadTask(with url: URL) -> URLSessionDownloadTask
+
+func downloadTask(with request: URLRequest) -> URLSessionDownloadTask
+```
+
+요청에 대한 응답을 처리할 completion handler 가 필요한 경우 다음으로 구현.
+
+```swift
+// delegate 의 메서드 호출이 아닌 completion handler 의 내부에 response 를 제공.
+// (인증 문제에 대한 delegate 메서드는 여전히 호출된다.)
+func downloadTask(with url: URL, 
+completionHandler: @escaping (URL?, URLResponse?, Error?) -> Void) -> URLSessionDownloadTask
+
+func downloadTask(with request: URLRequest, 
+completionHandler: @escaping (URL?, URLResponse?, Error?) -> Void) -> URLSessionDownloadTask
+**// completion handler 에서 location 에 해당하는 것이 URL 자료형을 가진 첫번째 파라미터이다.**
+```
+
+- url : 다운로드 할 URL.
+- request : URL, 캐시 정책, 요청 유형, body data 또는 body stream 등을 제공하는 URL 요청 객체입니다.
+
+**completionHandler**
+
+- **location : 서버의 response 가 저장되는 임시파일의 위치.** completion handler 가 리턴되기 전까지 읽기 위해서 열어야 한다. 그렇지 않으면 파일이 삭제되고 손상된다.
+- error : **요청이 실패한 이유를 의미하는 error 객체. 요청이 성공적이면 nil.**
+
+**요청 성공** : location 파라미터에 임시 파일의 위치. error 파라미터는 nil 이다.
+
+**요청 실패** : location 파라미터는 nil. error 파라미터는 실패에 대한 정보를 포함한다.
+
+서버의 response 를 수신하면 요청의 성공여부와 관계없이 response 에 해당 정보가 포함된다.(response 의 status code 로 요청의 성공을 판별할 수 있다.)
+
+간단히 사용하는 예제를 살펴보자.
+
+```swift
+        let defaultSession = URLSession(configuration: .default)
+
+        guard let url = URL(string: "https://test.com") else { return }
+    
+        // Request
+        let request = URLRequest(url: url)
+
+        // Task
+        let dataTask = defaultSession.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+            guard error == nil else {
+                print("Error occur: \(String(describing: error))")
+                return
+            }
+
+            guard let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                return
+            }
+
+            // data 를 처리하는 코드...
+
+        }.resume()
+```
 
 ---
 
 ### 참조
 
 [URLSession Tutorial: Getting Started](https://www.raywenderlich.com/3244963-urlsession-tutorial-getting-started)
+
+[URLSession Tutorial: Getting Started 번역본](https://o-o-wl.tistory.com/50)
 
 [[iOS/Swift] HTTP/HTTPS 통신의 기본, URLSession](https://tngusmiso.tistory.com/50)
