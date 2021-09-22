@@ -1,5 +1,5 @@
 ---
-title:  "iOS) URLSession 에 대해서 알아보자"
+title:  "iOS) URLSession 에 대해서 알아보자(1/2) - 원리"
 categories:
 - iOS
 
