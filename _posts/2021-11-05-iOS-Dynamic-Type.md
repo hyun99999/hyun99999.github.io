@@ -99,19 +99,6 @@ WWDC 에서 발표할 때 Dynamic Type 을 적용하기 위한 세 가지 목표
 
 <img width="250" alt="11" src="https://user-images.githubusercontent.com/69136340/140480639-6835cd15-80e8-40fc-b417-7a0523295214.png">
 
-### 커스텀 폰트에도 적용
-
-지금까지는 시스템이 제공하는 폰트를 사용했는데 커스텀 폰트의 경우는 어떻게 대응할 수 있을까요?
-
-```swift
-label.adjustsFontForContentSizeCategory = true
-
-// 1. 폰트 크기 비율에 따라 리사이징
-label.font = UIFontMetrics.default.scaledFont(for: customFont)
-// 2. build-in 폰트 사이즈에 매핑하여 리사이징
-label.font = UIFontMetrics(forTextStyle: .largeTitle).scaledFont(for: customFont)
-```
-
 ### 코드로 적용하기
 
 iOS 15 에서 UIButton 이 Dynamic Type 을 지원하면서 그전에는 복잡했던 코드가 쉬워졌다...! 👍
@@ -137,6 +124,19 @@ class ViewController: UIViewController {
         button.titleLabel?.adjustsFontForContentSizeCategory = true
     }
 }
+```
+
+### 커스텀 폰트에도 적용
+
+지금까지는 시스템이 제공하는 폰트를 사용했는데 커스텀 폰트의 경우는 어떻게 대응할 수 있을까요?
+
+```swift
+label.adjustsFontForContentSizeCategory = true
+
+// 1. 폰트 크기 비율에 따라 리사이징
+label.font = UIFontMetrics.default.scaledFont(for: customFont)
+// 2. build-in 폰트 사이즈에 매핑하여 리사이징
+label.font = UIFontMetrics(forTextStyle: .largeTitle).scaledFont(for: customFont)
 ```
 
 ## 🔍  폰트 사이즈 구하기
