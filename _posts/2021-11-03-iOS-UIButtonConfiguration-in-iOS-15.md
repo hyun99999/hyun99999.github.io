@@ -12,19 +12,19 @@ iOS 15 에서 UIButton 에 새로생긴 `UIButton.Configuration` 에 대해서 �
 
 ## **Creating Buttons**
 
-✨ `[init(frame: CGRect)](https://developer.apple.com/documentation/uikit/uibutton/3600348-init)`
+✨ [init(frame: CGRect)](https://developer.apple.com/documentation/uikit/uibutton/3600348-init)
 
 > Creates a new button with the specified frame.
 > 
 
-✨`[init(frame: CGRect, primaryAction: UIAction?)](https://developer.apple.com/documentation/uikit/uibutton/3600349-init)`
+✨[init(frame: CGRect, primaryAction: UIAction?)](https://developer.apple.com/documentation/uikit/uibutton/3600349-init)
 
 > Creates a new button with the specified frame, registers the primary action event, and sets the title and image to the action’s title and image.
 > 
 
 iOS14 부터 사용가능한 생성자이다! `UIAction` 을 통해서 버튼의 액션을 부여할 수 있기 때문에 더이상 `selector` 를 사용하지  않고 사용이 가능하다.
 
-📌 `[UIAction.init(title:image:identifier:discoverabilityTitle:attributes:state:handler:)](https://developer.apple.com/documentation/uikit/uiaction/3358590-init)`
+📌 [UIAction.init(title:image:identifier:discoverabilityTitle:attributes:state:handler:)](https://developer.apple.com/documentation/uikit/uiaction/3358590-init)
 
 **Declaration**
 
@@ -49,7 +49,7 @@ UIButton.init(frame: .zero, primaryAction: UIAction(handler: { _ in
 
 ## **Creating Buttons of a Specific Type**
 
-✨ `[init(type: UIButton.ButtonType)](https://developer.apple.com/documentation/uikit/uibutton/1624028-init)`
+✨ [init(type: UIButton.ButtonType)](https://developer.apple.com/documentation/uikit/uibutton/1624028-init)
 
 > Creates and returns a new button of the specified type.
 > 
@@ -68,14 +68,14 @@ UIButton.init(frame: .zero, primaryAction: UIAction(handler: { _ in
 
 <img width="250" alt="3" src="https://user-images.githubusercontent.com/69136340/140014611-96a610c9-02bb-4646-a461-9293c6b282e9.png">
 
-✨ `[init(type: UIButton.ButtonType, primaryAction: UIAction?)](https://developer.apple.com/documentation/uikit/uibutton/3600777-init)`
+✨ [init(type: UIButton.ButtonType, primaryAction: UIAction?)](https://developer.apple.com/documentation/uikit/uibutton/3600777-init)
 
 > Creates a new button with the specified type, registers the primary action event, and sets the title and image to the action’s title and image.
 > 
 
 ## **Creating System Buttons**
 
-✨ `[class func systemButton(with: UIImage, target: Any?, action: Selector?) -> Self](https://developer.apple.com/documentation/uikit/uibutton/3295916-systembutton)`
+✨ [class func systemButton(with: UIImage, target: Any?, action: Selector?) -> Self](https://developer.apple.com/documentation/uikit/uibutton/3295916-systembutton)
 
 > Creates and returns a system type button with specified image, target, and action.
 > 
@@ -94,7 +94,7 @@ class 키워드가 나온김에 class func 와 static func 에 대해서 가볍�
 
 ## ****Managing the Appearance with a Configuration Object****
 
-✨ `[var configuration: UIButton.Configuration?](https://developer.apple.com/documentation/uikit/uibutton/3784627-configuration)`
+✨ [var configuration: UIButton.Configuration?](https://developer.apple.com/documentation/uikit/uibutton/3784627-configuration)
 
 > The configuration for the button’s appearance.
 > 
@@ -130,7 +130,7 @@ UIButton 의 다른 속성과 메서드들과 함께 사용할 수 있다. `conf
 
 ## **Creating Buttons from a Configuration Object**
 
-✨ `[init(configuration: UIButton.Configuration, primaryAction: UIAction?)](https://developer.apple.com/documentation/uikit/uibutton/3784628-init)`
+✨ [init(configuration: UIButton.Configuration, primaryAction: UIAction?)](https://developer.apple.com/documentation/uikit/uibutton/3784628-init)
 
 > Creates a new button with the specified configuration and registers the primary action event.
 > 
@@ -170,10 +170,10 @@ UIButton 의 다른 속성과 메서드들과 함께 사용할 수 있다. `conf
 
 UIButton.Configuration 에는 이니셜라이저가 없기 때문에 초기화할수가 없어요! 대신 4 가지 static 메서드를 제공합니다! 
 
-- `[static func plain() -> UIButton.Configuration](https://developer.apple.com/documentation/uikit/uibutton/configuration/3750793-plain)` : Creates a configuration for a button with a transparent background.
-- `[static func filled() -> UIButton.Configuration](https://developer.apple.com/documentation/uikit/uibutton/configuration/3750786-filled)` : Creates a configuration for a button with a background filled with the button’s tint color.
-- `[static func gray() -> UIButton.Configuration](https://developer.apple.com/documentation/uikit/uibutton/configuration/3750787-gray)` : Creates a configuration for a button with a gray background.
-- `[static func tinted() -> UIButton.Configuration](https://developer.apple.com/documentation/uikit/uibutton/configuration/3750798-tinted)` : Creates a configuration for a button with a tinted background color.
+- [static func plain() -> UIButton.Configuration](https://developer.apple.com/documentation/uikit/uibutton/configuration/3750793-plain) : Creates a configuration for a button with a transparent background.
+- [static func filled() -> UIButton.Configuration](https://developer.apple.com/documentation/uikit/uibutton/configuration/3750786-filled) : Creates a configuration for a button with a background filled with the button’s tint color.
+- [static func gray() -> UIButton.Configuration](https://developer.apple.com/documentation/uikit/uibutton/configuration/3750787-gray) : Creates a configuration for a button with a gray background.
+- [static func tinted() -> UIButton.Configuration](https://developer.apple.com/documentation/uikit/uibutton/configuration/3750798-tinted) : Creates a configuration for a button with a tinted background color.
 
 <img width="250" alt="5" src="https://user-images.githubusercontent.com/69136340/140014675-a536cabb-ea74-4ba3-951f-7506347bae60.png">
 
@@ -499,8 +499,8 @@ button1.configuration = config
 
 Configurations 도 비교 연산이 가능합니다!
 
-- `[static func == (UIButton.Configuration, UIButton.Configuration) -> Bool](https://developer.apple.com/documentation/uikit/uibutton/configuration/3784560)` : Indicates whether two button configurations are equal.
-- `[static func != (UIButton.Configuration, UIButton.Configuration) -> Bool](https://developer.apple.com/documentation/uikit/uibutton/configuration/3784559)` : Indicates whether two button configurations aren’t equal.
+- [static func == (UIButton.Configuration, UIButton.Configuration) -> Bool](https://developer.apple.com/documentation/uikit/uibutton/configuration/3784560) : Indicates whether two button configurations are equal.
+- [static func != (UIButton.Configuration, UIButton.Configuration) -> Bool](https://developer.apple.com/documentation/uikit/uibutton/configuration/3784559) : Indicates whether two button configurations aren’t equal.
 
 ```swift
 // ✅ 다음과 같이 연산자를 사용가능하다.
@@ -508,14 +508,6 @@ if button1.configuration == button2.configuration {
             print("button1.configuration == button2.configuration")
 }
 ```
-
-`[func hash(into: inout Hasher)](https://developer.apple.com/documentation/uikit/uibutton/configuration/3784609-hash)`
-
-Hashes the essential components of the button configuration by feeding them into the given hash function.
-
-`[var hashValue: Int](https://developer.apple.com/documentation/uikit/uibutton/configuration/3784610-hashvalue)`
-
-The hash value of the configuration.
 
 ---
 
