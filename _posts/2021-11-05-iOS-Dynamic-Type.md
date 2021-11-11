@@ -36,11 +36,11 @@ Dynamic Type 은 `xSmall`, `Small`, `Medium`, `Large(Default)`, `xLarge`, `xxLar
 그리고 Dynamic Type 에 따른 텍스트 스타일의 weight, size, leading(행간) 값을 다음의 표를 통해서 볼 수 있어요!
 
 
-<img src ="https://user-images.githubusercontent.com/69136340/140480027-308d8ce3-9eeb-40de-adea-c3404e1a5dfe.png" width =" 400">
+<img src ="https://user-images.githubusercontent.com/69136340/140480027-308d8ce3-9eeb-40de-adea-c3404e1a5dfe.png" width =" 500">
 
 시스템은 접근성이 필요한 사용자들을 위해서 더 큰 크기의 사이즈도 제공합니다! (위에서 언급한 더 큰 텍스트가 이것이죠!)
 
-<img src="https://user-images.githubusercontent.com/69136340/140480034-40f98501-8c1a-4e2b-b202-661b4e0c9718.png" width ="400">
+<img src="https://user-images.githubusercontent.com/69136340/140480034-40f98501-8c1a-4e2b-b202-661b4e0c9718.png" width ="500">
 
 **출처:** 
 
@@ -60,7 +60,7 @@ WWDC 에서 발표할 때 Dynamic Type 을 적용하기 위한 세 가지 목표
 
 흰색 테두리가 사용자가 볼 수 있는 사이즈라고 해볼까요?
 
-<img src ="https://user-images.githubusercontent.com/69136340/140480164-addadc29-636a-4225-95a5-f741e04dedfe.png" width ="450">
+<img src ="https://user-images.githubusercontent.com/69136340/140480164-addadc29-636a-4225-95a5-f741e04dedfe.png" width ="500">
 
 ### 2.Avoid Constant Values Based on Defualy Text Size
 
@@ -74,15 +74,15 @@ WWDC 에서 발표할 때 Dynamic Type 을 적용하기 위한 세 가지 목표
 
 <img width="250" alt="8" src="https://user-images.githubusercontent.com/69136340/140480290-e9484251-8df9-470f-8584-20561c717993.png">
 
-코드)
 
-<img src="https://user-images.githubusercontent.com/69136340/140480356-230c0db4-0a32-410c-ac0f-fb49bb720606.png" width ="500">
+
+<img src="https://user-images.githubusercontent.com/69136340/140480356-230c0db4-0a32-410c-ac0f-fb49bb720606.png" width ="600">
 
 ### 3.Side-By-Side Text
 
 이번에는 노란색 박스가 사용자가 보는 스크린이라고 해봅시다.
 
-<img src="https://user-images.githubusercontent.com/69136340/140480417-9cdb9cd4-9f02-489f-baf6-35753a8b6bdb.png" width ="350">
+<img src="https://user-images.githubusercontent.com/69136340/140480417-9cdb9cd4-9f02-489f-baf6-35753a8b6bdb.png" width ="400">
 
 ## 🔍 Dynamic Type 적용
 
@@ -93,7 +93,7 @@ WWDC 에서 발표할 때 Dynamic Type 을 적용하기 위한 세 가지 목표
 
 - Font 에서 `Text Style` 을 설정해주고, `Automatically Adjusts Font` 를 체크해주면 적용이 끝납니다!
 
-<img width="600" alt="5" src="https://user-images.githubusercontent.com/69136340/140480606-08501850-120e-4669-bbb7-6f65bde79ff2.png">
+<img width="700" alt="5" src="https://user-images.githubusercontent.com/69136340/140480606-08501850-120e-4669-bbb7-6f65bde79ff2.png">
 
 - UIButton 은 iOS 15 부터 기본적으로 Dynamic Type 을 지원하기 시작했어요. 그래서 아래와 같이 Font 에서 지정만하면 적용할 수 있어요.
 
@@ -145,7 +145,7 @@ label.font = UIFontMetrics(forTextStyle: .largeTitle).scaledFont(for: customFont
 
 이를 통해서 앞서 looks beautiful 하게 vertical 로 만들라는데..! 이거 어캐해!! 했는데 분기 처리가 가능하겠어요!
 
-<img src="https://user-images.githubusercontent.com/69136340/140480669-af4b4e48-feab-4aa1-81a3-94367dc729ff.png" width ="450">
+<img src="https://user-images.githubusercontent.com/69136340/140480669-af4b4e48-feab-4aa1-81a3-94367dc729ff.png" width ="550">
 
 `preferredContentSizeCategory` 를 사용해서 시뮬레이터의 text style 이 large(default) 인지 확인해보았어요!
 
@@ -163,7 +163,7 @@ if UIApplication.shared.preferredContentSizeCategory == UIContentSizeCategory.la
 
 ### **UIContentSizeCategory**
 
-<img width="500" alt="스크린샷 2021-11-05 오후 5 26 35" src="https://user-images.githubusercontent.com/69136340/140480776-befeb73b-6afd-400c-8b53-d35a55962711.png">
+<img width="600" alt="스크린샷 2021-11-05 오후 5 26 35" src="https://user-images.githubusercontent.com/69136340/140480776-befeb73b-6afd-400c-8b53-d35a55962711.png">
 
 ## 🔍 Dynamic Type 쉽게 테스트하기
 
