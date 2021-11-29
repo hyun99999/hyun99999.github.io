@@ -1,5 +1,5 @@
 ---
-title:  "iOS) Kakao QRcode Widget 클론코딩 - FaceID 적용"
+title:  "iOS) KakaoQRcode-클론코딩-FaceID-적용"
 categories:
 - iOS
 
