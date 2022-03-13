@@ -124,5 +124,12 @@ notification 메시지가 미리 정해진 경우, 앱 번들의 `Localizable.st
 
 ***개발자 문서에서 [Table 2](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification#2943365) 을 확인할 수 있습니다.***
 
+[Table 3](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification#2990112) 은 `sound` dictionary에 포함할 수 있는 key 를 나열합니다. 이 키를 사용해서 critical alert 에 대한 소리를 구성합니다.
+***개발자 문서에서 [Table 3](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification#2990112) 을 확인할 수 있습니다.***
+
+아래 그림은 banner notification 에서 title, subtitle and body content 의 기본배치 입니다. alerts 의 모양을 커스텀하려면 [Customizing the Appearance of Notifications](https://developer.apple.com/documentation/usernotificationsui/customizing_the_appearance_of_notifications) 에 설명된대로  `notification content app extension` 을 사용하십시오.
+
+<img src ="https://user-images.githubusercontent.com/69136340/155826093-e9fada06-5e98-4c0e-b915-edca9ee3e22e.png" width ="300">
+
 - 출처
 [Apple Developer Documentation - generating a remote notification](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification)
