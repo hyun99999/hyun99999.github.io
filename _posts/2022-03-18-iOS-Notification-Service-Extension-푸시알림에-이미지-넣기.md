@@ -199,11 +199,9 @@ override func didReceive(_ request: UNNotificationRequest, withContentHandler co
 }
 ```
 
-- attachment 를 만들었으니 확인해봅시다. 잊지않고 다음과 같이 빌드해야합니다!
-
-<img src="https://user-images.githubusercontent.com/69136340/158991654-5ac65555-ed14-4d13-9ae0-3466806ecb6a.png" width ="500">
-
 ## ⚠️ 왜... 안되지..?
+
+- attachment 를 만들었으니 확인해보려했는데 다음과 같을때 되지 않았어요!
 
 ```swift
 // 1. identifier 를 certificationImage 위와 같이 설정.
