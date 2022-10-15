@@ -10,7 +10,9 @@ author_profile: false
 
 - TestFlight 와 릴리즈 앱 자동 배포 위한 Fastlane 설정
 
-## 0️⃣ Fastlane 을 선택한 이유
+## 0️⃣ Fastlane 란?
+
+- iOS 배포를 자동화하기 위한 ruby 기반 오픈소스 라이브러리입니다.
 
 ## 1️⃣ Fastlane 설치
 
