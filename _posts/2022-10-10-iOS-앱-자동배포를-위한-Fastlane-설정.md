@@ -386,6 +386,90 @@ end
 
 [upload_to_app_store](http://docs.fastlane.tools/actions/upload_to_app_store/#upload_to_app_store)
 
+### ❗️ error1
+
+- Precheck cannot check In-app purchases with the App Store Connect API Key (yet). Exclude In-app purchases from precheck, disable the precheck step in your build step, or use Apple ID login
+
+**프로젝트에서 in-app 결제가 없기 때문에 precheck 단계에서 in-app 결제를 제외하여 해결하였습니다.**
+
+<img width="700" alt="1" src="https://user-images.githubusercontent.com/69136340/198906110-e55b2474-bdc8-4139-bee1-f027028e6aef.png">
+
+- precheck 단계는 심사에 제출하기 전 fastlane 에서 자체적으로 체크해주는 단계를 말합니다.(아래의 설명 참조)
+
+<img width="700" alt="2" src="https://user-images.githubusercontent.com/69136340/198906123-5fc87211-aef7-4235-895d-d9d33cd54acb.png">
+
+```swift
+upload_to_app_store(
+
+    // ...
+    // ✅ Should precheck check in-app purchases? 기본값은 true 이다.
+    precheck_include_in_app_purchases: false
+)
+```
+
+### ❗️error2 - IDFA
+
+- Use of Advertising Identifier (IDFA) is required to submit
+
+<img width="732" alt="3" src="https://user-images.githubusercontent.com/69136340/198906136-790625af-c897-427a-91bb-26b76a7bd1f8.png">
+
+**IDFA(광고 식별자)를 사용하지 않기 때문에 submission_information 파라미터를 사용해서 IDFA 세팅을 포함해주었습니다.**
+
+```swift
+upload_to_app_store(
+
+    // ...
+
+    // ✅ Use the submission_information parameter for additional submission specifiers, including compliance and IDFA settings.
+    submission_information: { add_id_info_uses_idfa: false }
+)
+```
+
+### 👉 결과적으로 작성하게 된 App Store 자동 배포 lane
+
+```swift
+default_platform(:ios)
+
+  desc "Push a new release build to the App Store"
+  lane :release do |options|
+  # ✅ 매개변수를 넣어서
+  # fastlane release version:"2.1.0"
+  # 과 같이 사용할 수 있다.
+    if options[:version]
+      increment_version_number(version_number: options[:version])
+      get_certificates
+      get_provisioning_profile
+      build_app(
+        workspace: "Project.xcworkspace",
+        scheme: "Project-beta",
+        export_method: "app-store",
+        export_options: {
+          provisioningProfiles: { 
+            "com.example.bundleid" => "Provisioning Profile Name",
+            "com.example.bundleid2" => "Provisioning Profile Name 2"
+          }
+        }
+      )
+      upload_to_app_store(
+        api_key_path: "fastlane/key.json",
+        # ✅ screenshots 는 기존의 것 사용. metadata 는 업데이트 내역을 위해서 스킵하지 않음.
+        skip_metadata: false,
+        skip_screenshots: true,
+        submit_for_review: true,
+        automatic_release: true,
+        # ✅ force: HTML report를 스킵합니다.
+        force: true,
+        # ✅ precheck 에서 In-app 결제 제외합니다.
+        precheck_include_in_app_purchases: false,
+        # ✅ IDFA 세팅합니다.
+        submission_information: { add_id_info_uses_idfa: false }
+      )
+    # ✅ if 문을 종료하기 위한 end
+    end
+  end
+end
+```
+
 ## 4️⃣ Slack 으로 알림 보내기
 
 - `Incoming WebHooks` 앱을 설치하고 원하는 채널을 설정해줍니다.
