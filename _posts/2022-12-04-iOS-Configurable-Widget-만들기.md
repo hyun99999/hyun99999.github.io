@@ -6,13 +6,21 @@ categories:
 date:   2022-12-04  16:54:00 +0900
 author_profile: false
 ---
-### 👉 Configurable Widget 만들기
+### 내용
 
-- 첫 번째가 `StaticConfiguration` 이고, 두 번째가 `IntentConfiguration` 입니다. `위젯 편집` 을 통해서 세 번째처럼 사용자에게 위젯의 옵션을 설정하게 할 수 있습니다.
+- Configurable Widget 은 무엇을 지원하는지 알아봅시다.
+- 정적/동적 선택 목록을 만들기 위해서 Custom Intent Definition 을 생성해봅시다.
+- 동적 선택 목록을 설정하고, 기본값을 설정하기 위해서 Intents Extension 을 추가하여 Intent 를 핸들링 해봅시다.
+- configurable properties 를 지원하기 위해 IntentTimelineProvider 를 사용하여 IntentConfiguration 을 구성하겠습니다.
+
+### 🚨 들어가기 전 - Configurable Widget 은 무엇인가요?
+
+- 두 번째는 첫 번째와 달리 **Configurable properties** 를 사용하도록 설정한 **Configurable widget** 입니다.
+- **Configurable Widget** 은 `위젯 편집` 을 통해서 세 번째처럼 사용자에게 위젯의 옵션을 설정하게 할 수 있습니다.
 
 <img width="700" alt="1" src="https://user-images.githubusercontent.com/69136340/205479593-de0c2964-53f9-4c01-bb37-027ad0e020ad.png">
 
-**아래의 개발자 문서를 참고하여서 진행해 보겠습니다.**
+**아래의 글은 다음의 개발자 문서를 따라가며 진행한 내용들과 트러블 슈팅을 정리한 글입니다.**
 
 [Apple Developer Documentation - Making a Configurable Widget](https://developer.apple.com/documentation/WidgetKit/Making-a-Configurable-Widget)
 
@@ -61,19 +69,19 @@ target 에 파일의 코드를 사용하기 위해서 다음을 수행해주어�
 4. **Category** 를 `View` 로 설정하고, 위젯이 intent 를 사용할 수 있음을 나타내기 위해서 **Intent is eligible for widgets** 체크박스를 선택합니다.
 5. **Parameter** 에서 위젯의 configurable setting 이 되는 `character` 이름을 새로운 파라미터로 추가합니다.
 
-<img src="https://user-images.githubusercontent.com/69136340/205479677-24af1563-546f-4d61-861a-3aa7fad5bec6.png" width ="700">
+<img src="https://user-images.githubusercontent.com/69136340/210099058-5695aa96-e0ab-4d56-a71c-a11c8874123a.png" width ="700">
 
-parameter 를 추가한 후, 세부정보를 구성합니다.
+**Parameter** 를 추가한 후, 세부정보를 구성합니다.
 
 ### 👉 정적/동적 선택 목록 만들기
 
- ✅ **만약 매개변수가 사용자에게 정적인 선택 목록을 제공하는 경우, pop-up menu 에서`Add Enum...` 를 선택해서 static enumeration 을 생성해주면 됩니다.**
+ ✅ **만약 매개변수가 사용자에게 정적인 선택 목록을 제공하는 경우, pop-up menu 에서 `Add Enum...` 를 선택해서 static enumeration 을 생성해주면 됩니다.**
 
 <img width="600" alt="5" src="https://user-images.githubusercontent.com/69136340/205479701-535fe807-eb10-4031-9579-e517ea55febb.png">
 
 <img width="700" alt="6" src="https://user-images.githubusercontent.com/69136340/205479706-631270f4-7f60-45cd-8efb-694a7b6cd26e.png">
 
-예를 들어, parameter 가 캐릭터의 아바타를 지정하고, 가능한 아바타 목록이 변경되지 않는 상수 집합의 경우에 intent definition file 에서 static enumeration 을 사용할 수 있습니다.
+예를 들어, 생성한 **Parameter** 가 캐릭터의 아바타를 지정하고, 선택 가능한 아바타 목록이 변경되지 않는 상수 집합의 경우에 **intent** **definition** **file** 에서 **static enumeration** 을 사용할 수 있습니다.
 
 ✅ **가능한 아바타 목록이 다양하거나 동적으로 생성되는 경우, dynamic options 가 있는 type 을 대신 사용할 수 있습니다.**
 
@@ -87,7 +95,7 @@ parameter 를 추가한 후, 세부정보를 구성합니다.
 
 <img src="https://user-images.githubusercontent.com/69136340/205479753-0dfb6404-5938-44c6-97ee-82c16f7ec8fb.png" width ="700">
 
-3. `name` property 를 새롭게 추가해주고, Type pop-up menu 로부터 `String` 을  선택해줍니다.
+3. `name` **Property** 를 새롭게 추가해주고, Type pop-up menu 로부터 `String` 을  선택해줍니다.
 
 <img width="700" alt="9" src="https://user-images.githubusercontent.com/69136340/205479777-29bb457e-d0f3-4da0-b265-9c0bee717a27.png">
 
@@ -104,7 +112,7 @@ intent 의 parameter 의 순서는 사용자가 위젯을 편집할 때 표시�
 
 ## ✅ Add an Intents Extension to Your Project
 
-동적인 캐릭터 목록을 제공하기 위해 Intents extension 을 앱에 추가합니다. 사용자가 위젯을 편집하면, WidgetKit 은 Intents extension 을 불러와 동적인 정보를 제공합니다. 
+동적인 캐릭터 목록을 제공하기 위해 **Intents extension** 을 앱에 추가합니다. 사용자가 위젯을 편집하면, WidgetKit 은 **Intents extension** 을 불러와 동적인 정보를 제공합니다. 
 
 **Intents extension 을 추가하기 위해서 :**
 
@@ -114,14 +122,14 @@ intent 의 parameter 의 순서는 사용자가 위젯을 편집할 때 표시�
 <img width="600" alt="11" src="https://user-images.githubusercontent.com/69136340/205479843-381fe5c7-2713-4f40-ba2b-454748bc9ed6.png">
 
 3. 마치면, Xcode 의 새로운 scheme 를 활성화하라는 메시지가 표시됩니다. Activate(활성화)해줍니다.
-4. 새로운 target 속성의 **General** tab 에서 **Supported Intents** 섹션에 entry 를 추가하고 **Class Name** 을 `SelectCharacterIntent`**(Custom Class field 적혀있던)** 로 설정합니다.
+4. 새로운 target 속성의 **General tab** 에서 **Supported Intents** 섹션에 entry 를 추가하고 **Class Name** 을 `SelectCharacterIntent`(`SelectCharacter` intent 의 우측 inspector 에 있는 Custom Class field)로 설정합니다.
 
 <img width="700" alt="12" src="https://user-images.githubusercontent.com/69136340/205479858-84d63400-9a40-4403-9749-4c3bdbfa8fdc.png">
 
 5. **Project navigator** 에서 이전에 추가한 custom intent definition file 을 선택합니다.
 6. **File Inspector** 를 사용하여 **Intents extension target** 에 definition file 을 추가해줍니다.
 
-(아래 예시와 같이 Target Membership 에서 containing app(포함하는 앱), widget extension, Intents extension 모두 체크해주면 됩니다.)
+(아래 예시와 같이 **Target Membership** 에서 containing app(포함하는 앱), widget extension, Intents extension 모두 체크해주면 됩니다.)
 
 <img src="https://user-images.githubusercontent.com/69136340/205479869-0d5abe90-74e9-4435-b564-6a17555682d6.png" width ="700">
 
@@ -135,7 +143,9 @@ File inspector 에서 **containing app(포함하는 앱), widget extension, Inte
 
 Xcode 가 **Intent extension** 을 만들 때, `IntentHandler` 클래스를 포함하는 `IntentHandler.swift` 파일을 프로젝트에 추가합니다. **이 클래스에는 handler 를 반환하는 메서드가 포함되어 있습니다. 이 핸들러를 확장해서 위젯의 사용자 정의 값을 제공할 수 있습니다.**
 
-custom intent definition file 을 기반으로 Xcode 는 핸들러가 준수해야만 하는 `SelectCharacterIntentHandling` 프로토콜을 생성합니다.(`SelectCharacterIntent` 를 생성했기 때문)IntentHandler 클래스의 선언에 아래와 같이 추가해줍니다.
+custom intent definition file 을 기반으로 Xcode 는 핸들러가 준수해야만 하는 `SelectCharacterIntentHandling` 프로토콜을 생성합니다.(`SelectCharacterIntent` 를 생성했기 때문)
+
+`IntentHandler` 클래스의 선언에 추가해줍니다.
 
 ```swift
 class IntentHandler: INExtension, SelectCharacterIntentHandling {
@@ -143,7 +153,7 @@ class IntentHandler: INExtension, SelectCharacterIntentHandling {
 }
 ```
 
-핸들러가 동적 옵션을 제공할 때(이전에 체크했던 **Options are provided dynamically** 옵션), `provide[Type]OptionsCollection(for:with:)` 메서드를 구현해야 합니다. 여기서 `[Type]` 은 intent definition file 의 custom type 이름입니다.
+핸들러가 동적 옵션을 제공할 때(이전에 체크했던 **Options are provided dynamically** 옵션), `provide[Type]OptionsCollection(for:with:)` 메서드를 구현해야 합니다. 여기서 `[Type]` 은 intent definition file 의 **custom type** 이름입니다.
 
 - ***준수하라는 오류 메시지의 fix 를 하면 stub 함수를 만들어주는데, 탈출 클로저를 사용하는 함수와  async/await 를 사용하는 함수 두 가지로 준수할 수 있다.***
 
@@ -153,13 +163,13 @@ class IntentHandler: INExtension, SelectCharacterIntentHandling {
 
 <img width="700" alt="14" src="https://user-images.githubusercontent.com/69136340/205479910-6bc8f28f-cd98-4749-992c-b6e3f9b4ffe0.png">
 
-- 이는 아래의 Resolvable 를 체크해서 생기는 필수 구현 메서드입니다. 해제해주면 됩니다.
+- 이는 아래의 **Resolvable** 를 체크해서 생기는 필수 구현 메서드입니다. 해제해주면 됩니다.
 
 <img src="https://user-images.githubusercontent.com/69136340/205479922-6ccf9988-8099-4de9-98a3-9dad46da593b.png" width ="700">
 
-**(문서로 돌아가서 살펴보겠습니다. 이하 설명은 탈출 클로저를 가진 함수에 대해서 이야기하고 있습니다.)**
+(문서로 돌아가서 살펴보겠습니다. 이하 설명은 탈출 클로저를 가진 함수에 대해서 이야기하고 있습니다.)
 
-이 메서드는 completion handler 를 포함하고 있고, `INObjectCollection<GameCharacter>` 를 전달합니다. `GameCharacter` 타입은 intent definition file 에서의 custom type 입니다. Xcode 는 다음과 같이 정의되는 코드를 생성합니다.
+이 메서드는 completion handler 를 포함하고 있고, `INObjectCollection<GameCharacter>` 를 전달합니다. `GameCharacter` 타입은 **intent definition file** 에서의 **custom type** 입니다. Xcode 는 다음과 같이 정의되는 코드를 생성합니다.
 
 ```swift
 public class GameCharacter: INObject {
@@ -170,7 +180,9 @@ public class GameCharacter: INObject {
 
 `name` 속성은 intent definition file 에서 사용자가 추가한 custom type 입니다.
 
-**`provideCharacterOptionsCollection(for:with:)` 메서드를 구현하기 위해 위젯은 게임의 프로젝트에 있는 구조체를 사용합니다.(타겟은 containing app 과 Intent extension 을 체크합니다.)** 이 구조는 다음과 같이 사용 가능한 캐릭터 목록과 해당 세부사항을 정의합니다.
+`**provideCharacterOptionsCollection(for:with:)` 메서드를 구현하기 위해 위젯은 게임의 프로젝트에 있는 구조체를 사용합니다.(타겟은 containing app 과 Intent extension 을 체크합니다.)**
+
+이 구조는 다음과 같이 사용 가능한 캐릭터 목록과 해당 세부사항을 정의합니다.
 
 ```swift
 struct CharacterDetail {
@@ -216,11 +228,11 @@ class IntentHandler: INExtension, SelectCharacterIntentHandling {
 
 - 이때 `GameCharacter` 클래스의 convenience initializer 를 사용하여 인스턴스화 해줍니다.
 
-<img width="400" alt="16" src="https://user-images.githubusercontent.com/69136340/205479968-e5686d32-974d-47a9-baa4-4e85386fbfc9.png">
+<img width="500" alt="16" src="https://user-images.githubusercontent.com/69136340/205479968-e5686d32-974d-47a9-baa4-4e85386fbfc9.png">
 
 - ✅ **주석 -** 동적인 목록을 만들어주기 위해 생성한 type 인 GameCharacter 을 기억해내보자.
 
-<img width="600" alt="17" src="https://user-images.githubusercontent.com/69136340/205479978-861e0858-0790-4638-ab07-22f2a861f09b.png">
+<img width="500" alt="17" src="https://user-images.githubusercontent.com/69136340/205479978-861e0858-0790-4638-ab07-22f2a861f09b.png">
 
 intent definition file 구성이 완료되고, Intents extension 이 앱에 추가되면, 사용자는 표시할 특정 캐릭터를 선택할 수 있습니다. **WidgetKit 은 intent definition file 의 정보를 사용하여 자동으로 위젯 편집을 위한 유저 인터페이스를 생성합니다.**
 
@@ -230,7 +242,7 @@ intent definition file 구성이 완료되고, Intents extension 이 앱에 추�
 
 configurable properties 를 지원하기 위해서 위젯은 **IntentTimelineProvider** configuration 을 사용합니다. 예를 들어, CharacterDetail 위젯은 다음과 같이 configuration 을 정의합니다.
 
-(**IntentTimelineProvider** 를 사용하기 위해서는 위젯을 만들 때 configurable 하게 만드는 체크박스를 선택하면 된다. 이를 선택함으로써 **TimelineProvider** 에서 **IntentTimelineProvider** 로 코드가 만들어진다.)
+(**IntentTimelineProvider** 를 사용하기 위해서는 위젯을 만들 때 configurable 하게 만드는 체크박스를 선택하면 됩니다. 이를 선택함으로써 **TimelineProvider** 에서 **IntentTimelineProvider** 로 코드가 만들어집니다.)
 
 ```swift
 struct CharacterDetailWidget: Widget {
@@ -252,7 +264,7 @@ struct CharacterDetailWidget: Widget {
 
 `SelectCharacterIntent` 파라미터는 위젯에 대한 사용자 정의 가능한 속성을 결정합니다. configuration 은 `CharacterDetailProvider` 를 사용하여 위젯의 timeline events 를 관리합니다. timeline providers 에 대한 자세한 내용은 [Keeping a Widget Up To Date](https://developer.apple.com/documentation/widgetkit/keeping-a-widget-up-to-date) 를 참조하세요.
 
-사용자가 위젯 편집을 한 후, WidgetKit 은 timeline entries 를 요청할 때 사용자 정의 값을 제공자에게 전달합니다. 일반적으로 provider 가 생성하는 timeline entries 에 intent 의 관련 세부정보를 포함합니다.
+사용자가 위젯 편집을 한 후, WidgetKit 은 timeline entries 를 요청할 때 사용자 정의 값을 제공자에게 전달합니다. **일반적으로 provider 가 생성하는 timeline entries 에 intent 의 관련 세부정보를 포함합니다.**
 
 예를 들어, provider 는 helper 메서드(이 예제에서는 `lookupCharacterDetail(for:)`)를 사용해서 intent 안의 캐릭터의 이름을 사용해서 CharacterDetail 을 조회한 다음 캐릭터의 세부정보를 포함하는 entry 가 있는 timeline 을 생성합니다.
 
@@ -297,7 +309,7 @@ containing app 에서 만든 모델을 통해 동적으로 생성할 수 있습�
 
 이를 프로젝트에 적용하는 자세한 예제는 아래의 글에서 진행했습니다.
 
-**_링크_**
+https://gyuios.tistory.com/265
 
 ## ✅ Offer Preconfigured Complications on Apple Watch
 
@@ -307,7 +319,7 @@ watchOS 9 및 iOS 16 부터 WidgetKit 을 사용하여 Apple Watch 컴플리케�
 
 **`TimelineProvder` 코드에서, [recommendations()](https://developer.apple.com/documentation/widgetkit/intenttimelineprovider/recommendations()-5ltr5) 를 구현하고 custom intents 를 사용하여 만든 [IntentRecommendation](https://developer.apple.com/documentation/widgetkit/intentrecommendation) 객체를 반환합니다.**
 
-(그 과정은 아래와 같습니다.)
+(이는 다음과 같이 사용됩니다.)
 
 앱이 recommended widget configurations 와 관련된 새로운 데이터를 수신하면, [invalidateConfigurationRecommendations()](https://developer.apple.com/documentation/widgetkit/widgetcenter/invalidateconfigurationrecommendations()) 메서드를 호출해서 현재 오래된 recommendations 을 무효화 합니다. 즉, WidgetKit 에게 새로운 recommended preconfigured configurations 를 가져오도록 합니다.
 
@@ -321,9 +333,8 @@ watchOS 9 및 iOS 16 부터 WidgetKit 을 사용하여 Apple Watch 컴플리케�
 
 ### 👉 총정리
 
-- Custom Intent Definition(SiriKit Intent Definition file) 을 추가하고, 정적인 목록(enums)/동적인 목록(types)을 생성해준다.
+- Custom Intent Definition(SiriKit Intent Definition file) 을 추가하고, 정적인 선택 목록은 Enum 으로/동적인 선택 목록은 Type 으로 intent 의 paramerter type 을 설정해준다.
 - Intents extension 을 앱에 추가해서 사용자가 위젯을 편집할 때 Intents extension 을 불러와 정보를 제공할 수 있도록 한다. 이때 Intents definition file 을 containing app, widget extension, intents extension 모두에 추가해준다.
-- 정적인 선택 목록은 Enum 으로, 동적인 선택 목록은 Type 으로 intent 의 paramerter type 을 설정해준다.
 - 정적) Enum 을 설정하면 선택목록을 정적으로 구현할 수 있다.
 - 동적) Intent extension 의 IntentHandler 를 확장하여 intent 에 대한 핸들러를 제공할 수 있다. 이때 intent definition file 과 관련된 intent handling 프로토콜을 준수하여 확장한다. `provide[Type]OptionsCollection(for:with:)` 메소드를 구현하여 intent handling 프로토콜을 준수할 수 있다.
 - configurable properties 를 지원하기 위해 IntentTimelineProvider 를 사용하여 IntentConfiguration 을 구성해준다.

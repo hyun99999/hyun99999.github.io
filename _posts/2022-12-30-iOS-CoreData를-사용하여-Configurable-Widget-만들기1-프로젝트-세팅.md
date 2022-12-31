@@ -1,5 +1,5 @@
 ---
-title:  "iOS) Configurable Widget 만들기 (1/3) - 프로젝트 세팅"
+title:  "iOS) CoreData 를 사용하여 Configurable Widget 만들기 (1/3) - 프로젝트 세팅"
 categories:
 - iOS
 
