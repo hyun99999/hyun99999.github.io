@@ -328,12 +328,14 @@ struct MyCardProvider: IntentTimelineProvider {
             let cardDetail = CoreDataManager.shared.fetch(entityName: "CardDetail")
             
             // ✅ SelectMyCardIntent 에서 전달되는 cardName 을 cardDetail 과 대조해서 동일한 카드를 결정.
-            let cardName = configuration.MyCard?.cardName
+            let myCardName = configuration.MyCard?.cardName
             cardDetail.forEach { card in
-                if cardName == card.value(forKey: "cardName") as? String ?? "" {
-                    let myCardDetail = MyCardDetail(cardName: card.value(forKey: "cardName") as? String ?? "",
-                                                    userName: card.value(forKey: "userName") as? String ?? "",
-                                                    cardImage: UIImage(data: card.value(forKey: "cardImage") as? Data ?? Data()) ?? UIImage())
+                guard let cardName = cardDetail[0].value(forKey: "cardName") as? String else { return }
+                
+                if myCardName == cardName {
+                    let myCardDetail = MyCardDetail(cardName: cardName,
+                                                    userName: cardDetail[0].value(forKey: "userName") as? String ?? "",
+                                                    cardImage: UIImage(data: cardDetail[0].value(forKey: "cardImage") as? Data ?? Data()) ?? UIImage())
                     let entry = MyCardEntry(date: entryDate, detail: myCardDetail)
                     entries.append(entry)
                 }
@@ -461,9 +463,6 @@ struct Provider: TimelineProvider {
             entries.append(entry)
         }
 
-        // Create the timeline and call the completion handler. The .never reload 
-        // policy indicates that the containing app will use WidgetCenter methods 
-        // to reload the widget's timeline when the details change.
         let timeline = Timeline(entries: entries, policy: .never)
         completion(timeline)
     }
@@ -471,7 +470,6 @@ struct Provider: TimelineProvider {
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-
 //  ✅let configuration: ConfigurationIntent
 }
 
@@ -503,9 +501,7 @@ struct QRCodeWidget_Previews: PreviewProvider {
 }
 ```
 
-QRCodeWidget 은 이미지를 사용하여서 뷰를 구현하였습니다.
-
-**(static configuration 이기 때문에 위젯 편집이 없습니다.)**
+QRCodeWidget 은 이미지를 사용하여서 뷰를 구현하였습니다.**(static configuration 이기 때문에 위젯 편집이 없습니다.)**
 
 <img width="500" alt="28" src="https://user-images.githubusercontent.com/69136340/210102549-c4004ef8-45ae-44ec-a0dc-f9194b747327.png">
 
