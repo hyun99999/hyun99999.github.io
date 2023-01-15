@@ -13,29 +13,21 @@ author_profile: false
 
 Lock Screen 의 위젯은 iOS 16 부터 새롭게 등장한 기술입니다. 아직 지원하는 앱은 많지 않지만 예시로 카카오톡과 카카오페이 위젯을 살펴보겠습니다.
 
-![스크린샷 2023-01-13 오후 4.49.30.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/eca2c5ed-d39e-41e6-8457-5382e0234ee7/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2023-01-13_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_4.49.30.png)
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f6c8beea-e7b7-49a4-bd87-be478af9af8c/Untitled.png)
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3f4149f6-df72-43d9-a74f-3c8acaf50b09/Untitled.png)
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f42f0017-1941-4075-ad5a-acbef11ed2a8/Untitled.png)
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/04ea34a3-296e-4be7-a64b-050c749640c1/Untitled.png)
+<img width="700" alt="1" src="https://user-images.githubusercontent.com/69136340/212527392-704467b1-c531-4eaa-a9e4-41a5ea9c22bc.png">
 
 - 단순히 불투명한 듯한 UI 가 아닌듯한데 어떤 원리로 자연스럽게 배경과 어울러지는걸까요?
-- 이는 적합한 이미지 에셋이 필요한걸까요? 함수로써 구현해줘야하는 걸까요? 아니면, 잠금화면에 맞는 렌더링 모드가 적용되는 걸까요?
+- 이는 적합한 이미지 에셋이 필요한걸까요? 함수로써 구현해줘야하는 걸까요? 아니면, 잠금 화면에 맞는 렌더링 모드가 적용되는 걸까요?
 - WidgetKit 에서 Lock Screen 이라는 환경을 설정하고, 대응해줘야하는 걸까요?
 
 ***여러가지 의문점이 있습니다! 이외에도 Lock Screen Widget 에 대해서 이제 알아보겠습니다.***
 
 다음의 문서에서 렌더링 방식에 대해 확인해보았습니다.
 
-[Apple Developer Documentation](https://developer.apple.com/documentation/widgetkit/creating-lock-screen-widgets-and-watch-complications)
+[Apple Developer Documentation - Creating Lock Screen Widgets and Watch Complications](https://developer.apple.com/documentation/widgetkit/creating-lock-screen-widgets-and-watch-complications)
 
 **WidgetKit 은 세가지 다른 렌더링 모드를 사용합니다.**
 
-- Lock Screen(잠금화면)과 complications 는 더 작고, 항상 표시되며, 플랫폼에 대해 tinted mode 를 지원하기 때문에 보다 제한된 색상을 사용하게 됩니다.
+- Lock Screen(잠금 화면)과 complications 는 더 작고, 항상 표시되며, 플랫폼에 대해 tinted mode 를 지원하기 때문에 보다 제한된 색상을 사용하게 됩니다.
 
 ### 1️⃣vibrant
 
@@ -47,21 +39,21 @@ WWDC22) Complications and widgets: Reloaded 의 세션을 참고해보겠습니�
 
 **Vibrant** 에 대한 이야기를 시작해보겠습니다.
 
-![스크린샷 2022-08-30 오전 1.11.42.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b61fa927-3d84-4460-bdab-39dc40ee20f9/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2022-08-30_%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB_1.11.42.png)
+<img width="600" alt="2" src="https://user-images.githubusercontent.com/69136340/212527750-6b35c58d-3490-43ff-8ead-f7e166786d3b.png">
 
-iOS 의 **Vibrant** 모드에서는 컨텐츠는 흐릿해진 다음 Lock Screen 배경에 맞게 적절한 색으로 바뀝니다.
+iOS 의 **Vibrant** 모드에서는 콘텐츠는 흐릿해진 다음 Lock Screen 배경에 맞게 적절한 색으로 바뀝니다.
 
-시스템은 greyscale 의 컨텐츠를 주목할 수 있도록 그려냅니다. 그리고 이것은 환경에 적합하게 나타납니다.
+시스템은 greyscale 의 콘텐츠를 주목할 수 있도록 그려냅니다. 그리고 이것은 환경에 적합하게 나타납니다.
 
 추가적으로 Lock Screen 은 vibrant rendering mode 를 색상으로 물들이도록 설정될 수 있습니다. 밝은 컬러는 결국 주로 불투명해지고 더 밝아집니다. 반면, 어두운 컬러는 배경에서 약간의 광택만으로 흐릿하게 나타납니다.
 
-![스크린샷 2022-08-30 오전 1.16.29.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7b3d57d8-2615-4f14-9c57-5b999588e6d4/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2022-08-30_%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB_1.16.29.png)
+<img width="600" alt="3" src="https://user-images.githubusercontent.com/69136340/212527773-937a95c7-73d5-47b0-99b9-c412912224fb.png">
 
 가독성을 보장하기 위해서 **Vibrant** 모드에서 투명 컬러는 사용을 피하고 대신 어두운색이나 검정을 사용하여 가독성은 유지하면서 콘텐츠는 눈에 덜 띄게 합니다.
 
 이러한 미묘한 차이인 일관된 배경을 위젯에 주기 위해서 `AccessoryWidgetBackground` view 를 도입했습니다.
 
-![스크린샷 2022-08-30 오전 1.18.45.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/94e20080-1e8d-498f-9859-ecfc24ba206d/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2022-08-30_%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB_1.18.45.png)
+<img width="600" alt="4" src="https://user-images.githubusercontent.com/69136340/212527779-132a56bd-672f-4061-9c0e-7e9eafee852e.png">
 
 background view 는 다양한 위젯 렌더링 모드에서 여러 모습을 가집니다.
 
@@ -79,7 +71,9 @@ WidgetKit 은 해당 렌더링 모드에서 complication 의 뷰 색성을 변�
 
 `.widgetAccentable()` 뷰 수정자를 사용하여 group views 를 accented group 으로 그룹화합니다. **이 렌더링 모드는 iOS 에서는 사용할 수 없습니다.**
 
-**결론적으로, 잠금 화면에 대한 위젯의 렌더링은 시스템에 의해서 vibrant 렌드링 모드로 적용되게 됩니다.**
+**결론적으로, 잠금 화면에 대한 위젯은 시스템에 의해서 vibrant 렌드링 모드로 적용되게 됩니다.**
+
+## 좀 더 알아보자!
 
 WidgetKit 을 다루는데 중간중간 watch 에 대한 이야기가 나옵니다. Lock Screen Widget 에 대한 정보가 부족한것 같습니다! 개발자 문서가 알려주는 overview 를 정리해보겠습니다.
 
@@ -89,10 +83,10 @@ iOS 16 및 watchOS 9 부터 WidgetKit 의 범위를 iPhone Lock Screen 으로, A
 
 지속적으로 표시되고, 앱의 가장 관련성 높고 한 눈에 볼 수 있는(glanceable) 콘텐츠를 표시하며 사람들이 자세한 내용을 위해서 앱에 빠르게 접근할 수 있게 해줍니다.
 
-잠금 화면 위젯과 워치 컴플리케이션은 WidgetKit 과 SwiftUI views 를 사용하여 다음을 수행할 수 있습니다 :
+잠금 화면 위젯과 watch 컴플리케이션은 WidgetKit 과 SwiftUI views 를 사용하여 다음을 수행할 수 있습니다 :
 
 - iPhone 의 잠금 화면 위젯을 지원하도록 기존 iOS Home Screen 과 **Today View(아래에서 다루겠습니다.)** widget 의 코드를 업데이트할 수 있습니다.
-- watchOS 앱용 WidgetKit complications 를 제공하고, ClockKit complications 를 대체하고, iOS 와 watchOS 앱 간에 더 많은  코드를 공유할 수 있습니다.(이 내용은 WWDC22 세션 군데군데에서 얻을 수 있었습니다. 제가 정리한 관련 세션을 공유해드립니다.)
+- watchOS 앱용 WidgetKit complications 를 제공하고, ClockKit complications 를 대체하고, iOS 와 watchOS 앱 간에 더 많은  코드를 공유할 수 있습니다.(이 내용은 WWDC22 세션에서 얻을 수 있었습니다. 제가 정리한 관련 세션을 공유해드립니다.)
 
 (ClockKit 을 대체하고 마이그레이션하는 내용에 대해서 다룹니다.)
 
@@ -109,7 +103,7 @@ iOS 16 및 watchOS 9 부터 WidgetKit 의 범위를 iPhone Lock Screen 으로, A
 
 ---
 
-iOS 16 및 watchOS 9 부터 WidgetKit 의 범위가 확장되어 watchOS 앱용으로 WidgetKit complications 를 지원하기 때문에 설명들에 워치 이야기가 나오는 것을 알 수 있었습니다.
+👉 iOS 16 및 watchOS 9 부터 WidgetKit 의 범위가 확장되어 watchOS 앱용으로 WidgetKit complications 를 지원하기 때문에 설명들에 워치 이야기가 나오는 것을 알 수 있었습니다.
 
 **이번 포스팅에서 다룰 내용은 기존의 프로젝트에서 WidgetKit 과 SwiftUI views 를 사용하여 iPhone Lock Screen widgets 을 지원해보는 것입니다.**
 
@@ -136,25 +130,57 @@ iOS 16은 잠금 화면에 위젯을 도입하여 사람들이 Apple Watch face 
 
 (👉 WidgetKit 의 범위를 iPhone Lock Screen 으로, Apple Watch 의 컴플리케이션인 watch face 로 확장했던 것은 HIG 적으로도 의도한 바임을 알 수 있었습니다.)
 
-Today View, iPhone 의 잠금화면 그리고 iPadOS 의 Home Screen 에서는 앱 이름이 위젯 아래에 표시되지 않습니다.
+Today View, iPhone 의 잠금 화면 그리고 iPadOS 의 Home Screen 에서는 앱 이름이 위젯 아래에 표시되지 않습니다.
 
 (👉 생각해보니 아이폰의 Home Screen 과 달리 아이패드는 표시가 되지 않군요!)
 
-### Platform considerations
+### Platform considerations - iOS
+
+잠금 화면의 위젯은 watch 의 [컴플리케이션](https://developer.apple.com/design/human-interface-guidelines/components/system-experiences/complications/)과 기능적으로 유사하며 위젯의 디자인 원칙 외에도 컴플리케이션 디자인 원칙을 따릅니다. 둘 다 Always-On dispaly 를 지원하고, 제한된 공간 내에서 한눈에 볼 수 있는(glanceable) 콘텐츠를 강조합니다.
+
+(👉 glaceable 해야함이 개발자 문서와 WWDC 세션에서도 그렇고 HIG 까지 반복적으로 등장하였습니다. 잠금 화면 위젯을 설명하는데 중요한 단어임에 분명합니다!)
+
+대부분의 경우 컴플리케이션 디자인은 잠금 화면의 위젯에서도 잘 작동하므로(반대의 경우도 동일) 함께 생성하는 것이 좋습니다.
+
+앱은 잠금 화면에서 세 가지 다른 모양의 위젯을 제공할 수 있습니다. 시계 위에 표시되는 inline text 와 시계 아래에 보여지는 circular and rectangular 모양이 있습니다.
+
+<img src="https://user-images.githubusercontent.com/69136340/212527844-ad5728a9-5787-4250-9e92-f7afb9e6f65e.png" width ="250">
+
+시스템은 vibrant(생생하고) blurred appearance 를 사용하여 잠금 화면 위의 위젯을 렌더링합니다.
+
+이미지 내의 픽셀 불투명도는 blurred material 효과의 강도를 결정합니다.
+
+(👉 여기서 material 은 제가 작성한 다음의 글에서 좀 더 자세히 살펴볼 수 있습니다.)
+
+[SwiftUI) Marterial 이란? (Widget transparent/blur background..?)](https://gyuios.tistory.com/259)
+
+잠금 화면용 에셋을 만들 때 이미지, 숫자 또는 텍스트와 같은 콘텐츠를 full opacity 로 렌더링 합니다.
+
+픽셀의 밝기는 잠금 화면에서 픽셀이 얼마나 vibrant 하게 표시되는지 결정합니다. 밝은 회색 값은 더 많은 대비를 제공하고, 어두운 값은 더 적은 대비를 제공합니다. 계층 구조를 설정하려면, 가장 눈에 띄는 콘텐츠에는 white 또는 light gray 를 사용하고 보조 요소에는 darker grayscale 값을 사용합니다.
+
+**vibrant rendering mode 에서 이미지가 멋지게 보이도록 하기 위해서 :**
+
+- 이미지 콘텐츠의 grayscale 대비가 충분한지 확인합니다.
+- 최고의 vibrant material effect 를 얻기위해서 white opacities 보다 opaque grayscale 값을 사용합니다.
+
+(👉 시스템이 어떻게 잠금 화면용 에셋을 만드는지 알 수 있었고, 잠금 화면의 렌더링 모드를 위한 이미지 에셋이 별도로 있다면 확실한 표현을 할 수 있을 것이라는 것도 알 수 있었습니다.
+또한, 이 부분은 글의 하단부에서 언급하는 트러블 슈팅의 사례를 경험하며 더 쉽게 이해할 수 있었습니다.)
+
+Always-On display 를 지원하는 기기는 밝기가 감소된 잠금 화면에서 위젯을 렌더링합니다. 이때 충분한 대비를 제공하는 gray 레벨을 사용하고 콘텐츠를 읽을 수 있는지 확인해야 합니다.
 
 **출처:**
 
 [Widgets](https://developer.apple.com/design/human-interface-guidelines/components/system-experiences/widgets)
 
-***이제 프로젝트에서 다음과 같이 잠금화면을 위한 위젯을 추가해보겠습니다.***
+***이제 프로젝트에서 다음과 같이 잠금 화면 위젯을 추가해보겠습니다.***
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2715bd71-a7f1-4a30-992a-7edb8e916308/Untitled.png)
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0e170719-8575-4729-b0b7-a2a00b3e7cc9/Untitled.png)
+<img width="500" alt="6" src="https://user-images.githubusercontent.com/69136340/212527869-b8f68769-3b06-4a36-ba1d-ae4ffa677e89.png">
 
 ### 1️⃣ 프로젝트 세팅
 
 아래 글에서 진행한 프로젝트에서 진행하였습니다. 아래의 글을 읽지 않아도 프로젝트에서 구현되는 부분은 별개이기 때문에 무관할 것 같습니다.🙂
+
+[iOS) CoreData 를 사용하여 Configurable Widget 만들기 (3/3) - Configurable Widget](https://gyuios.tistory.com/265)
 
 - 두 가지 iPhone Lock Screen 위젯을 만들어보겠습니다.
 - QR Code 를 인식할 수 있도록 앱 내의 카메라 뷰로 이동할 수 있는 위젯.
@@ -190,11 +216,11 @@ struct EmojiRangerWidgetEntryView: View {
 
 iOS 와 watchOS 는 다음과 같이 **WidgetFamily** 를 공유합니다. 아래의 widget family 들은 watchOS 9 에 새롭게 등장하였습니다.
 
-![스크린샷 2023-01-13 오후 7.29.11.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1751424c-a759-4a6e-bfe7-e9dc47436bd0/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2023-01-13_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_7.29.11.png)
+<img width="500" alt="7" src="https://user-images.githubusercontent.com/69136340/212527887-727c9457-da83-4356-a076-c707ff3e4217.png">
 
 아래의 widget family 들은 위젯이 등장한 iOS 14부터 생겼습니다. **이하는 Lock Screen 에서 사용할 수 없습니다.**
 
-![스크린샷 2023-01-13 오후 7.32.07.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/89158ba3-abee-415a-a046-e61228334e3f/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2023-01-13_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_7.32.07.png)
+<img width="250" alt="8" src="https://user-images.githubusercontent.com/69136340/212527985-c4c7c73e-7621-4fee-8e58-5b8e5a822d47.png">
 
 프로젝트에 적용해보겠습니다. 
 
@@ -235,7 +261,7 @@ struct QRCodeWidget: Widget {
             QRCodeEntryView(entry: entry)
         }
 
-        // ✅ Lock Screen Widget 을 추가할 때도 동일하게 적용됩니다.
+        // ✅ Home, Today view Widget 을 추가할때 뿐만 아니라 Lock Screen Widget 을 추가할 때도 동일하게 적용됩니다.
         .configurationDisplayName("QR Code 위젯")
         .description("QR Code 를 인식할 수 있도록 카메라로 빠르게 접근합니다.")
 
@@ -309,7 +335,7 @@ struct OpenAppLockScreenEntryView : View {
                 AccessoryWidgetBackground()
                 Image("logoNada")
                     .resizable()
-                    // 원본 이미지의 색상을 그대로 사용하니 흐릿해서 진하게 표현하고자 다음의 코드를 사용.
+                    // ✅ 원본 이미지의 색상을 그대로 사용하니 흐릿해서 진하게 표현하고자 다음의 코드를 사용.
                     .renderingMode(.template)
                     .tint(.white)
                     .padding(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8))
@@ -329,7 +355,7 @@ struct OpenAppLockScreenWidget: Widget {
             OpenAppLockScreenEntryView(entry: entry)
         }
 
-        // ✅ 추가할 때 설명을 작성하였습니다.
+        // ✅ 추가할 때 설명을 작성.
         .configurationDisplayName("나다 NADA")
         .description("나다 NADA를 실행합니다.")
 
@@ -365,11 +391,11 @@ ZStack {
 
 Calendar app 에서 제공하는 원형의 Lock Screen widget 과 유사한 보기를 생성합니다.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/752569fb-ec63-418c-ba7c-ccf611cccdea/Untitled.jpeg)
+<img src="https://user-images.githubusercontent.com/69136340/212528016-4f57dfd6-4e86-48bb-853f-63840efd54ec.jpeg" width ="250">
 
 **출처:**
 
-[Apple Developer Documentation](https://developer.apple.com/documentation/widgetkit/creating-lock-screen-widgets-and-watch-complications)
+[Apple Developer Documentation - Accessorywidgetbackground](https://developer.apple.com/documentation/widgetkit/accessorywidgetbackground?changes=_9)
 
 ***추가적으로, 잠금 화면이 비춰질 때 혹은 Always-On display 상태에서 민감한 정보를 숨기고 싶을 수 있습니다. 그에 대한 내용도 간단하게 소개하겠습니다.***
 
@@ -377,34 +403,30 @@ Calendar app 에서 제공하는 원형의 Lock Screen widget 과 유사한 보�
 
 iOS 잠금 화면 위젯과 watchOS 컴플리케이션은 항상 표시됩니다. 위젯에 표시되는 정보를 검토해서, 기기가 잠겨 있거나 콘텐츠가 Apple Watch 및 iPhone 잠금 화면에 낮은 휘도로 나타날 때 민감한 정보를 숨길 수 있습니다.
 
-추가적인 정보는 [Display a Placeholder Widget and Hide Sensitive Data](https://developer.apple.com/documentation/widgetkit/creating-a-widget-extension#Display-a-Placeholder-Widget-and-Hide-Sensitive-Data) 를 참조하면 됩니다.
+추가적인 정보는 [Display a Placeholder Widget and Hide Sensitive Data](https://developer.apple.com/documentation/widgetkit/creating-a-widget-extension#Display-a-Placeholder-Widget-and-Hide-Sensitive-Data)를 참조하면 됩니다.
 
 **출처:**
 
-[Apple Developer Documentation](https://developer.apple.com/documentation/widgetkit/creating-lock-screen-widgets-and-watch-complications)
+[Apple Developer Documentation - Creating Lock Screen Widgets and Watch Complications](https://developer.apple.com/documentation/widgetkit/creating-lock-screen-widgets-and-watch-complications)
 
-### 🚨트러블 슈팅 - vibrant 렌더링을 위해서 사용해야하는 이미지
+### 🚨트러블 슈팅 - vibrant 렌더링을 위해서 사용해야 하는 이미지
 
-이미지에 따라서도 시스템이 반영하는 바가 달랐습니다. 이하 두가지 이미지를 사용하였습니다.
+이미지에 따라서 시스템이 렌더링하는 방식이 달랐습니다. 이하 두가지 이미지를 사용하였습니다.
 
-![스크린샷 2023-01-13 오후 5.25.40.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e0293853-5f71-4217-bfcd-5eb5463062fe/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2023-01-13_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_5.25.40.png)
+<img width="600" alt="10" src="https://user-images.githubusercontent.com/69136340/212528147-c231b1cd-4b80-4a3a-bd23-98fa05617115.png">
 
-![스크린샷 2023-01-13 오후 5.23.00.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e9f6fe24-0579-419b-95d0-3210fa126c1f/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2023-01-13_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_5.23.00.png)
+전자의 경우는 배경이 투명했기 때문에 위젯에 동그란 불투명한 배경을 넣기 위해 `AccessoryWidgetBackground()` 뷰를 사용해주어야 했습니다.
 
-전자의 경우는 배경이 투명했기 때문에 `AccessoryWidgetBackground()` 뷰를 사용해주어야 했고, 후자의 경우는 배경이 존재해서 아래와 같이 렌더링 되었고, `.resizable()` 뷰 수정자를 사용하니 자연스럽게 반영되었습니다.
+후자의 경우는 배경이 존재해서 아래와 같이 렌더링 되었고, `.resizable()` 뷰 수정자를 사용하니 자연스럽게 반영되었습니다. 이때 네모난 배경이 자연스럽게 확대되면서 동그란 불투명 배경이 되어 주었습니다.
 
-![스크린샷 2023-01-13 오후 5.27.35.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e1f4371a-3ce1-4d32-92dc-a5a1fc1db2f6/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2023-01-13_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_5.27.35.png)
+<img width="500" alt="11" src="https://user-images.githubusercontent.com/69136340/212528156-dd6775d3-7aeb-4b16-8b3a-ab7b25cc1882.png">
 
-![스크린샷 2023-01-13 오후 5.25.08.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/01695a82-5b25-4d4e-9645-82091f0867ff/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2023-01-13_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_5.25.08.png)
+이때, 후자는 에셋에 서로 다른 밝기의 요소들이 존재해서 계층 구조가 만들어진 듯하게 구현된 것을 볼 수 있었습니다.
+
+이를 통해, 참고할 수 있는 HIG 와 위의 사례를 디자이너분께 전달하여서 잠금 화면에서 의도할 수 있는 바를 좀 더 표현할 수 있는 잠금 화면용 이미지 에셋을 다시금 요청드렸습니다.
 
 ---
 
 전체 코드는 다음 프로젝트에서 확인할 수 있습니다.
 
 [https://github.com/hyun99999/WidgetsWithCoreDataTutorial-iOS](https://github.com/hyun99999/WidgetsWithCoreDataTutorial-iOS)
-
-**출처:**
-
-[Apple Developer Documentation](https://developer.apple.com/documentation/widgetkit/creating-lock-screen-widgets-and-watch-complications)
-
-[Widgets](https://developer.apple.com/design/human-interface-guidelines/components/system-experiences/widgets)
