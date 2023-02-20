@@ -1,9 +1,9 @@
 ---
-title:  "iOS) Widget 의 placeholder, snapshot, timeline 확인해보기"
+title:  "RxSwift) error handling - catch, catchAndReturn, retry, retryWhen, materialize, dematerialize"
 categories:
 - iOS
 
-date:   2023-02-10  13:50:00 +0900
+date:   2023-02-16  11:59:00 +0900
 author_profile: false
 ---
 ## ✅ error handling - catch, catchAndReturn, retry, retryWhen, materialize, dematerialize
