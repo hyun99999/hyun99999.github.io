@@ -15,22 +15,29 @@ author_profile: false
 
 📌 **FlexLayout 과 PinLayout 의 사용방법에 대해서는 게시글이 많고, 깃허브 리드미를 읽으면 쉽게 알 수 있을 만큼 문법이 간편합니다.**
 
-📌 **이 글에서는 예시 코드에서 확인할 수 있는 사용방법에 대해서 간단하게 깃허브 리드미를 참고하여 주석을 작성하고, 실제로 특정 뷰를 만드는데 적용한 코드를 공유하는데 초점을 맞춰서 작성하였습니다.**
+📌 **이 글에서는 예시 코드에서 확인할 수 있는 사용방법에 대해서 간단하게 주석을 작성하고, 실제로 특정 뷰를 만드는데 적용한 코드를 공유하는데 초점을 맞춰서 작성하였습니다.**
 
 ## 1️⃣ why? FlexLayout?
 
-FlexLayout 은 카카오뱅크, 당근마켓 등에서 사용되고 있다. 그렇다면 그 이유는 무엇인지 알아보자.
+FlexLayout 에대해서 공식문서를 통해 정리해보겠습니다.
+
+[https://github.com/layoutBox/FlexLayout](https://github.com/layoutBox/FlexLayout)
 
 <img src="https://user-images.githubusercontent.com/69136340/227701030-bc725275-c9ed-441b-b2f1-d4090edd83db.png" width ="600">
 
-출처: [https://github.com/layoutBox/FlexLayout](https://github.com/layoutBox/FlexLayout)
+- UIStackView 를 개선한 프레임워크로써 AutoLayout 과 UIStackView 보다 훨씬 빠르다.
+- FlexLayout 과 PinLayout 은 UIStackView 보다 8배에서 12배 더 빠르다.
 
-UIStackView 를 개선한 프레임워크로써 AutoLayout 과 UIStackView 보다 훨씬 빠르다.
+FlexLayout 의 원칙과 철학에 대해서 정리해보겠습니다.
 
-PinLayout 과 주로 함께 사용된다.
+- 간단하고, 강력하고 빠르다.
+- 구문이 간결하고 chainable 하다.
+- FlexLayout/yoga 는 퍼포먼스가 놀랍도록 빠르다. manual layout(UIView 의 frame 을 직접 설정한는 것)보다 빠르거나 동일하다.(Yoga 는 다중 플랫폼 CSS Flexbox 이다.)
+    - CSS 에서 flexbox 라 불리는 Flexible Box module 은 flexbox 인터페이스 내의 아이템 간 공간 배분과 강력한 정렬 기능을 제공하는 레이아웃입니다. 그렇기 때문에 정렬 방식이나 네이밍들이 CSS 와 매우 유사합니다.(출처: [flexbox의 기본 개념](https://developer.mozilla.org/ko/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox))
+- 소스 코드 구조는 flexbox 구조와 일치하여 이해하고 수정하기 쉽다. Flex containers 는 한 줄에 정의되며 해당 itme들과 연결된다. 이것은 flexbox 구조를 훨씬 시각적이고 이해하기 쉽게 만든다.
+- Supports left-to-right (LTR) and right-to-left (RTL) languages.
 
-- (FlexLayout 컨테이너 안에 PinLayout을 사용하거나 FlexLayout 컨테이너에 PinLayout을 적용할 수 있습니다.)
-- 많은 뷰를 배치해야하고 복잡한 애니메이션이 필요하지 않은 경우는 FlexLayout이 PinLayout보다 적합합니다.
+(출처 : https://github.com/layoutBox/FlexLayout#flexlayout-principles-and-philosophy)
 
 ## 2️⃣ FlexLayout install
 
@@ -48,6 +55,8 @@ flexbox container 를 사용하는 두 가지 방법이 있습니다.
 - Layout the container
 
 ### 1. Setup the container
+
+- flexbox 구조를 초기화합니다.
 
 ```swift
 import FlexLayout
@@ -92,19 +101,41 @@ init() {
    rootFlexContainer.flex.direction(.column).padding(12).define { (flex) in
         // Row container
         flex.addItem().direction(.row).define { (flex) in
+            // aspectRatio() : 너비와 높이 비율. Min 과 Max 를 따른다. grow 보다 우선순위가 높다. 'of' argument 로 imageView 의 너비 높이 비율을 그대로 가져갈 수 있다. UIImageView 에 대해서 가능.
             flex.addItem(imageView).width(100).aspectRatio(of: imageView)
             
             // Column container
+            // grow(1) : 기본값 0. 1로 설정하면 컨테이너와 동일하게 증가.(반대는 shrink())
             flex.addItem().direction(.column).paddingLeft(12).grow(1).define { (flex) in
                 flex.addItem(segmentedControl).marginBottom(12).grow(1)
                 flex.addItem(label)
             }
         }
         
+        // bckgroundColor : UIView properties 도 설정 가능.
         flex.addItem().height(1).marginTop(12).backgroundColor(.lightGray)
         flex.addItem(bottomLabel).marginTop(12)
     }
 }
+```
+
+### UIView properties
+
+FlexLayout 은 레이아웃 설정뿐만 아니라 UIView properties 도 설정할 수 있습니다.
+
+- `backgroundColor(_ color: UIColor)` : Set the flex item's UIView background color.
+- `cornerRadius(_ value: CGFloat)` : Set the flex item's UIView rounded corner radius.
+- `border(_ width: CGFloat, _ color: UIColor)` : Set the flex item's UIView border.
+
+```swift
+// Create a gray column container and add a black horizontal line separator 
+flex.addItem().backgroundColor(.gray).define { (flex) in
+      flex.addItem().height(1).backgroundColor(.black)
+  }
+// Set rounded corner
+flex.addItem().cornerRadius(12)
+// Set border
+flex.addItem().border(1, .black)
 ```
 
 ### 2. **Layout the container**
@@ -133,9 +164,11 @@ override func layoutSubviews() {
 }
 ```
 
-`pin` 이라는 메서드를 체이닝해서 사용하는 것을 볼 수 있습니다. 이는 **PinLayout** 을 **FlexLayout** 과 함께 사용한 것입니다. 그렇다면 **FlexLayout** 의 깃허브 리드미에서 왜 **PinLayout** 을 사용했는지 살펴보겠습니다.
+앞서 `pin` 이라는 메서드를 체이닝해서 사용하는 것을 볼 수 있습니다. 이는 **PinLayout** 을 **FlexLayout** 과 함께 사용한 것입니다. 그렇다면 **FlexLayout** 의 깃허브 리드미에서 왜 **PinLayout** 을 사용했는지 살펴보겠습니다.
 
 ### 👉 PinLayout
+
+[https://github.com/layoutBox/PinLayout](https://github.com/layoutBox/PinLayout)
 
 FlexLayout 에서 말하는 PinLayout 과 함께 사용하는 것에 대해서 정리한 것을 알아보겠습니다.
 
@@ -178,14 +211,12 @@ override func layoutSubviews() {
    // pin.safeArea : UIView.safeAreaInsets 를 사용 가능.
    // aspectRatio : 너비/높이 비율. 이미지에 사용하는 경우에만 이미지 dimension 을 사용하여 설정.
    logo.pin.top(pin.safeArea).left(pin.safeArea).width(100).aspectRatio().margin(padding)
-   // after
-   // right
-   // marginHorizontal 
+   // after, right : 상대적인 위치를 잡을 수 있음. after 는 LTR 과 RTL 에 따라 지정. aligned parameter 로 HorizontalAlignment, VerticalAlignment 정렬 가능.
+   // marginHorizontal : left, right, start, end margins 설정.
    segmented.pin.after(of: logo, aligned: .top).right(pin.safeArea).marginHorizontal(padding)
-   // below
-   // width
-   // pinEdges
-   // sizeToFit
+   // below : 해당 뷰를 파라미터에 대해서 아래에 배치. 여러개의 뷰에 대해서도 설정 가능.
+   // pinEdges : margin 을 적용하기 전에 네 개의 가장자리(위, 아래, 왼쪽, 오른족)를 고정. 예를들어, 사용하면 왼쪽과 너비를 설정하면 왼쪽과 오른쪽에 여백이 적용된다. 사용하지 않으면 뷰 밖으로 나갈 수 있음.
+   // sizeToFit : fitType parameter width 사용시 너비를 기준으로 뷰의 크기 조정. sizeToFit() 으로 호출시 sizeToFit() 와 동일하게 작동.
    textLabel.pin.below(of: segmented, aligned: .left).width(of: segmented).pinEdges().marginTop(10).sizeToFit(.width)
    separatorView.pin.below(of: [logo, textLabel], aligned: .left).right(to: segmented.edge.right).marginTop(10)
 }
@@ -202,7 +233,7 @@ override func layoutSubviews() {
     // rootFlexContainer.pin.top().bottom().left().right() 와 동일.
     self.rootFlexContainer.pin.all() // 1
 
-    // default is .fitContainer.
+    // default is '.fitContainer'. 자식뷰들이 컨테이너의 크기 안에 배치.
     self.rootFlexContainer.flex.layout() // 2
 }
 ```
@@ -211,7 +242,7 @@ override func layoutSubviews() {
 
 ### PinLayout’s Performance
 
-Layout Framework Benchmark 의 표를 살펴보면 PinLayout 은 auto layout 보다 8배에서 12배 더 빠릅니다.
+Layout Framework Benchmark 의 표를 살펴보면 PinLayout 과 FlexLayout 은 auto layout 보다 8배에서 12배 더 빠릅니다.
 
 <img src="https://user-images.githubusercontent.com/69136340/227701167-d0fe0e7e-3893-4ccf-8eeb-94633e4cd8b0.png" width ="600">
 
@@ -298,7 +329,6 @@ class UpdateViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-
         // ✅ PinLayout 으로 flexbox container 의 레이아웃을 지정.
         rootFlexContainer.pin
             .vCenter()  // vertical 중심 정렬
@@ -485,24 +515,25 @@ flex.addItem().direction(.column).define { flex in
 
 ### 👉 느낀 점
 
+**단점**
+
+여러 가지 다양한 이슈에 대해서 참고할 수 있는 자료가 부족하다고 느꼈습니다.
+그렇기 때문에 Storboard 와 AutoLayout을 사용했다면 손쉽게 했을 텐데 고려해야 할 사항도 많았고 많이 해봐야 여러 가지 레이아웃에 대응할 수 있다고 느꼈습니다.
+물론 그만큼 구문이 간결하고 이해하기 쉽지만, 마치 SwiftUI를 사용해 볼 때 “이렇게 하면 어떤 뷰가 나올까?” 라고 궁금해하며 여러 가지 modifier 와 조건들을 적용해 보던 모습들이 생각났습니다.
+
 **장점**
 
 장점으로 알려진 점들이 확실하게 와닿았습니다.
-
-익숙치 않았기 때문에 머리속으로만 하던 설계 단계를 가시화해야 했습니다. 하지만, 익숙해지면 코드로써도 바로 가시화할 수 있겠다고 느꼈습니다.
-
-**단점**
-
-여러가지 이슈를 만나게 되면 자료와 경험이 부족할 수 있겠다라고 느꼈습니다.
-
-UIStackView 로 레이아웃을 작성하는 것만큼 고려해야할 사항도 많았고 많이 해봐야 여러가지 레이아웃에 대응할 수 있다라고 느꼈습니다.
-
-Storboard 와 AutoLayout 을 사용했다면 손쉽게했을 관계에 대한 위치 지정과 화면 대비 크기 대응 설정이 어렵게 느껴졌습니다.
+구문이 의미하는 바가 확실히 와닿고, 체이닝을 활용해서 손쉽게 사용할 수 있었습니다. 정렬방식과 네이밍에서 CSS 향기를 맡을 수 있었고 이해하는데 도움이 되었습니다. 
+처음 사용하면서 뷰의 계층을 가시화하면 진행했지만, 익숙해지면 코드로써 뷰 계층 자체를 가시화할 수 있겠다고 느꼈습니다.
+당근마켓과 카카오뱅크에서  레이아웃 프레임워크로 FlexLayout 를 사용하고 있는 것으로 알려져 있습니다.(채용공고 사용기술에서 확인 가능) 레이아웃을 그리는 성능이 뛰어나고, 신규 개발자들에게 진입장벽이 낮기 때문에 효과적이라고 생각했습니다.
+더불어 코드베이스 기반으로 레이아웃을 설정할 때, 스토리보드를 사용하지 않아 손쉬운 코드리뷰가 가능하고 스토리보드로 인한 코드가 꼬이지 않는 것도 기본적인 장점이라고 생각해볼 수 있었습니다.
+또한, 오픈소스 라이브러리를 선정하는 관점에 대해서도 고민해 볼 수 있었습니다.
 
 **오픈소스 라이브러리 선정과정**
 
 당근 마켓의 경우는 레이아웃 프레임워크인 Texture 에서 변경하였다고 합니다.
-그 이유로 Texture 의 life cycle 의 이해 등이 신규 멤버들에게 어려움이 되었다고 합니다. 또한, Texture 는 활발하게 유지보수 되지 못하는 오픈소스 라이브러리라는 것이 근거 중에 하나였습니다. iOS 업데이트에 대응하며 꾸준히 유지보수가 필요하기 때문에 오픈소스 라이브러리를 선정할때는 활성화 정도도 보는 것이 중요하다고 느꼈습니다.
+Texture 는 활발하게 유지보수 되지 못하는 오픈소스 라이브러리라는 것이 근거 중에 하나였습니다. iOS 업데이트에 대응하며 꾸준히 유지보수가 필요하기 때문에 오픈소스 라이브러리를 선정할때는 활성화 정도도 보는 것이 중요하다고 느꼈습니다.
 
 ---
 
