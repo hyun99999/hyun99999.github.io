@@ -76,7 +76,7 @@ author_profile: false
 ### 3️⃣ 이제, 동적인 선택 목록을 생성해보자.
 
 - **목록이 다양하거나 동적으로 생성되는 경우, dynamic options 가 있는 type 을 대신 사용할 수 있습니다.**
-- **Type pop-up menu** 에서 **Add Type…** 을 통해 새로운 type 을 추가 및 설정할 수 있습니다. `Card` Enum 을 추가하겠습니다.
+- **Type pop-up menu** 에서 **Add Type…** 을 통해 새로운 type 을 추가 및 설정할 수 있습니다. `Card` Type 을 추가하겠습니다.
 
 <img width="700" alt="11" src="https://user-images.githubusercontent.com/69136340/210101856-0dec86be-51ae-4694-b50e-dc95d3553bd1.png">
 
