@@ -17,7 +17,7 @@ author_profile: false
     - 이미지를 따로 저장하지 않는다.
     - 이미지 선택 시와 취소 시에 notification 을 post 한다.
 
-<img src="https://user-images.githubusercontent.com/69136340/232378236-09d751dc-3a49-4d50-b93f-42d78c41865d.mov" with ="250">
+<img src="https://user-images.githubusercontent.com/69136340/232383595-0f987e83-6f0d-4bde-af80-9cb22a026251.mp4" width ="250">
 
 ### 우선, YPImagePicker 를 사용하는 이유
 
