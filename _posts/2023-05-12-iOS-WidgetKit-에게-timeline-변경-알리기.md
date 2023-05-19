@@ -108,15 +108,23 @@ func setLogoutClicked() {
                             let timeline = Timeline(entries: entries, policy: .atEnd)
                             completion(timeline)
                         } else {
-                            // ✅ 해당 명함이 삭제되어 없음. -> 대표 명함(첫 번째 명함)을 보여주도록 함
-                            let entry = MyCardEntry(date: entryDate,
-                                                   widgetCard: WidgetCard(cardUUID: data[0].cardUUID,
-                                                                           title: data[0].cardName,
-                                                                           userName: data[0].userName,
-                                                                           backgroundImage: fetchImage(data[0].cardImage)))
-                            entries = [entry]
-                            let timeline = Timeline(entries: entries, policy: .atEnd)
-                            completion(timeline)
+                            if data.isEmpty {
+                                // ✅ 대표 명함이 없음. -> 엠티뷰
+                                let entry = MyCardEntry(date: entryDate, widgetCard: nil)
+                                entries = [entry]
+                                let timeline = Timeline(entries: entries, policy: .atEnd)
+                                completion(timeline)
+                            } else {
+                                // ✅ 해당 명함이 삭제되어 없음. -> 대표 명함(첫 번째 명함)을 보여주도록 함
+                                let entry = MyCardEntry(date: entryDate,
+                                                       widgetCard: WidgetCard(cardUUID: data[0].cardUUID,
+                                                                               title: data[0].cardName,
+                                                                               userName: data[0].userName,
+                                                                               backgroundImage: fetchImage(data[0].cardImage)))
+                                entries = [entry]
+                                let timeline = Timeline(entries: entries, policy: .atEnd)
+                                completion(timeline)
+                            }
                         }
                     }
                 case .failure(let error):
