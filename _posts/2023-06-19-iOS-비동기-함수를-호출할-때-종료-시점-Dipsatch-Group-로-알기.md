@@ -22,7 +22,6 @@ author_profile: false
         // ✅ DispatchGroup 사용.
         let group = DispatchGroup()
         
-        // ✅ global?
         DispatchQueue.global().async(group: group) { [weak self] in
             // ✅ 해당 블록이 disaptch group 에 진입함을 나타냄
             group.enter()
