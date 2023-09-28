@@ -264,7 +264,7 @@ if let sheet = sheetVC.sheetPresentationController {
     sheet.detents = [customDetent, .large()] // detent 설정
     sheet.preferredCornerRadius = 30 // 둥글기 수정
 
-    // ✅ grabber를 보이지 않게 구현.
+    // ✅ grabber를 보이지 않게 구현.(UI를 위해 이미지로 대체)
     // sheet.prefersGrabberVisible = false // 기본값
 
     // ✅ 스크롤 상황에서 최대 detent까지 확장하는 여부 결정.
@@ -275,3 +275,5 @@ if let sheet = sheetVC.sheetPresentationController {
 // sheetVC.modalPresentationStyle = .pageSheet
 present(sheetVC, animated: true)
 ```
+
+<img src="https://github.com/TeamNADA/NADA-iOS-ForRelease/assets/69136340/e0abebbe-0b3a-41bf-8863-491cc6d20ed5" width = "250">
