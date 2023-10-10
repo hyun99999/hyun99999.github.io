@@ -122,7 +122,7 @@ override func viewWillAppear(_ animated: Bool) {
 }
 ```
 
-<img src="https://github.com/TeamNADA/NADA-iOS-ForRelease/assets/69136340/e38004fd-1593-45e2-8cda-3842a1a32a89" width ="250">
+<img src="https://github.com/TeamNADA/NADA-iOS-ForRelease/assets/69136340/8b306865-36a8-4e10-a783-fa24833a24b5" width ="250">
 
 ## 🚨트러블 슈팅
 - viewWillAppear(_:) 에서 키보드를 띄우다보니 grabber 을 잡고 동작하다가 다시 detent 로 돌려놓으면 viewWillAppear(_:) 가 호출되어서 키보드가 원치 않는 상황에 다시금 등장하게 되었습니다.
