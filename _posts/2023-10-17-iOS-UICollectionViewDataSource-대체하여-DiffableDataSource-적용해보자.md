@@ -169,7 +169,14 @@ private var diffableDataSource: UICollectionViewDiffableDataSource<Section, Rece
 - **[applySnapshotUsingReloadData(_:)](https://developer.apple.com/documentation/uikit/uicollectionviewdiffabledatasource/3804469-applysnapshotusingreloaddata)** : iOS 15 +. 차이점을 계산하거나 변경 사항에 애니메이션을 적용하지 않고, 스냅샷의 상태만 반영하도록 UI 를 재설정하는 메소드입니다.
 - **[applySnapshotUsingReloadData(_:completion:)](https://developer.apple.com/documentation/uikit/uicollectionviewdiffabledatasource/3804470-applysnapshotusingreloaddata)** : iOS 15 +. applySnapshotUsingReloadData(_:) 동일하고, 애니메이션 적용 후 completion handler 실행.
 - **[apply(_:animatingDifferences:)](https://developer.apple.com/documentation/uikit/uicollectionviewdiffabledatasource/3795617-apply)** :  iOS 15 +. UI 를 업데이트하고, 선택적으로 변경사항에 애니메이션을 적용합니다.
-- **[apply(_:animatingDifferences:completion:)](https://developer.apple.com/documentation/uikit/uicollectionviewdiffabledatasource/3375795-apply)** : iOS 13 +. apply(_:animatingDifferences:) 동일하고, 애니메이션 적용 후 completion handler 실행.
+- **[apply(_:animatingDifferences:completion:)](https://developer.apple.com/documentation/uikit/uicollectionviewdiffabledatasource/3375795-apply)** : iOS 13 +. apply(_:animatingDifferences:) 동일하고, 애니메이션 적용 후 completion handler 실행. 
+
+[WWDC 2021 > Make blazing fast lists and collection views](https://developer.apple.com/videos/play/wwdc2021/10252/)을 살펴보면 iOS 13 이상 사용 가능한 apply(_:animatingDifferences:completion:) 과 iOS 15이상 사용 가능한 apply(_:animatingDifferences:) 의 동작 차이에 대해서 설명해줍니다.(2분40초부터)
+- iOS 15 이전에는 animatingDifferences 파라미터가 false 인 경우에는 내부적으로 reloadData() 바뀌어서 동작하였습니다.(컬렉션 뷰의 모든 셀을 재생성해야 했기 때문에 퍼포먼스가 좋지 않았다고 합니다.)
+- iOS 15 부터는 animatingDifferences 파라미터가 false 인 경우에도 차이만 적용하고 다른 extra work 를 하지 않도록 동작한다고 합니다.
+- 그리고 해당 completion 파라미터는 nil 기본값을 가지고 있기 때문에 apply(_: animatingDifferences:) 를 사용하게되면, iOS 15 이전에는 apply(_:animatingDifferences:completion:) 메소드가 호출될 것이고 iOS 15 부터는 apply(_:animatingDifferences:) 가 호출될 것입니다. 즉, 코드 변화 없이 적용될 수 있습니다.
+
+---
 
 **초기 데이터 로드에서 applySnapshotUsingReloadData(_:) 메소드를 사용하여 변경사항  비교 없이 스냅샷의 상태를 반영하고, UI 업데이트를 위해서 apply(_:animatingDifferences:) 메소드를 호출할 수 있습니다.**
 
@@ -209,14 +216,16 @@ RxAlamofire.requestData(.get, url)
 
 ## 👉 느낀 점
 
-UICollectionViewDataSource 에서 필수록 구현해야했던 두 메소드를 구현하지않아도 되었고, 애니메이션을 위해서 별도의 코드없이도 자연스럽게 적용할 수 있었습니다. 
+- UICollectionViewDataSource 에서 필수록 구현해야했던 두 메소드를 구현하지않아도 되었고, 애니메이션을 위해서 별도의 코드없이도 자연스럽게 적용할 수 있었습니다. 채택하기 위해 요구하는 메소드를 구현해야하는 과정에서 diffable data source 객체를 만들어서 할당하는 과정이 새로워서 직관적이게 느껴졌던 것 같습니다.
+- 또한, UICollectionViewDataSource 를 사용할때와 달리 해싱으로 item 에 접근하기 때문에 셀을 재구성하거나 새롭게 교체하거나 ID 를 활용하는 성능을 향상시킬 수 있는 여지가 주어지는 점도 장점으로 느껴졌습니다.
+- 반면, 복잡한 프로세스는 아니지만 identifier 를 사용하기 위해서 데이터 타입은 반드시 Hashable 프로토콜을 채택해야만 하는 점이 있었습니다.
 
-채택하기 위해 요구하는 메소드를 구현해야하는 과정에서 diffable data source 객체를 만들어서 할당하는 과정이 새로워서 직관적이게 느껴졌던 것 같습니다.
+- 아래와 같이 섹션 수가 잘못되어 앱이 종료되는 경우를 방지할 수 있었습니다. 데이터의 변경 상황을 동기화하기 위해서 reloadData() 를 사용하게 됩니다. 이때 시간이 지남에 따라 UI 와 DataSource 역할을 하는 controller 가 own version of the truth 를 가지게 됩니다. 이 centralize 된 truth 가 없기 때문에 서로의 truth 가 맞지 않아 아래의 에러가 나는 것을 방지할 수 있었습니다.
 
-diffable data source 가 저장하는 section 과 item identifiers 는 변하지 않고 안정적인 identifiers 입니다. 이는 UICollectionViewDataSource 의 안정적이지 않은 indices 와 index path 와 대비됨을 경험하였습니다.
+<img src="https://github.com/hyun99999/algorithm-Swift/assets/69136340/977aaaae-9bd4-45d5-87a2-24af6e176022" width ="700">
 
-identifiers 를 가진 diffable data source 는 컬렉션 뷰 내의 위치(indices, index path)에 대한 지식 없이 section 과 item 을 참조할 수 있었습니다.
+(출처 : [WWDC 2019 > Advances in UI Data Source](https://developer.apple.com/videos/play/wwdc2019/220))
 
-또한, UICollectionViewDataSource 를 사용할때와 달리 해싱으로 item 에 접근하기 때문에 셀을 재구성하거나 새롭게 교체하거나  ID 를 활용하는 성능을 향상시킬 수 있는 여지가 주어지는 점도 장점으로 느껴졌습니다.
+- diffable data source 가 저장하는 section 과 item identifiers 는 변하지 않고 안정적인 identifiers 입니다. 이는 UICollectionViewDataSource 의 안정적이지 않은 indices 와 index path 와 대비됨을 경험하였습니다.
 
-반면, 복잡한 프로세스는 아니지만 identifier 를 사용하기 위해서 데이터 타입은 반드시 Hashable 프로토콜을 채택해야만 하는 점이 있었습니다.
+- identifiers 를 가진 diffable data source 는 컬렉션 뷰 내의 위치(indices, index path)에 대한 지식 없이 section 과 item 을 참조할 수 있었습니다.
