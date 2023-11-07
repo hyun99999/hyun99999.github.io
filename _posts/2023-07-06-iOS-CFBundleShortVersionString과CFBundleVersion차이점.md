@@ -1,4 +1,4 @@
- ---
+---
 title:  "iOS) CFBundleShortVersionString 과 CFBundleVersion 차이점"
 categories:
 - iOS

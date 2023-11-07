@@ -1,4 +1,4 @@
- ---
+---
 title:  "iOS) Widget 으로 앱 접근 시 화면 이동"
 categories:
 - iOS

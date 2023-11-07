@@ -1,4 +1,4 @@
- ---
+---
 title:  "iOS) UIBulrEffect 를 사용하기 + UIVisualEffectView 에 둥글기 적용하기"
 categories:
 - iOS

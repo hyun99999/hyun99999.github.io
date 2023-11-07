@@ -1,4 +1,4 @@
- ---
+---
 title:  "iOS) containerBackgroundRemovable(_:) 알아보기(feat. iPad lock screen)"
 categories:
 - iOS

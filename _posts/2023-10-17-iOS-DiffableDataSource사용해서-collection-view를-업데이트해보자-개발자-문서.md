@@ -1,4 +1,4 @@
- ---
+---
 title:  "iOS) DiffableDataSource 사용해서 collection view 를 업데이트해보자(개발자 문서)"
 categories:
 - iOS

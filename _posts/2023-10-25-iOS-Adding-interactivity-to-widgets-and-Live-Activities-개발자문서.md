@@ -1,4 +1,4 @@
- ---
+---
 title:  "iOS) Adding interactivity to widgets and Live Activities(개발자문서)"
 categories:
 - iOS

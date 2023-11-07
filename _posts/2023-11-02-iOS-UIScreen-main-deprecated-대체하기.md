@@ -1,4 +1,4 @@
- ---
+---
 title:  "iOS) UIScreen.main deprecated 대체하기"
 categories:
 - iOS

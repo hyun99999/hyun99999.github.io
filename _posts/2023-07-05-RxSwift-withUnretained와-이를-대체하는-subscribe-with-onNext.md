@@ -1,4 +1,4 @@
- ---
+---
 title:  "RxSwift) withUnretained 와 이를 대체하는 subscribe(with:onNext:…)"
 categories:
 - iOS

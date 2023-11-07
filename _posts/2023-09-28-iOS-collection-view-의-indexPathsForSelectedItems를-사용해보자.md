@@ -1,4 +1,4 @@
- ---
+---
 title:  "iOS) YPImagePicker error :  Stored properties cannot be marked unavailable with `@available`"
 categories:
 - iOS

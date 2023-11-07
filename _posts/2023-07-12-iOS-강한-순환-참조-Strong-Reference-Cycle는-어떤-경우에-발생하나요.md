@@ -1,4 +1,4 @@
- ---
+---
 title:  "iOS) 강한 순환 참조(Strong Reference Cycle)는 어떤 경우에 발생하나요?"
 categories:
 - iOS
